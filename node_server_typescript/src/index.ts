@@ -13,7 +13,7 @@ const port = process.env.PORT!;
 
 const options: cors.CorsOptions = {
   origin: "*",
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 };
 
 app.use(cors(options));
@@ -23,9 +23,8 @@ app.use([DeviceRouter]);
 mongoose
   .connect(process.env.MONGO_URL!)
   .then(() => console.log("  Database connected 📟 "))
-  .catch((err) => console.log(err))
-
+  .catch((err) => console.log(err));
 
 app.listen(port, () => {
-  console.log(`App is running at https://localhost:${port}`);
+  console.log(`App is running at http://localhost:${port}`);
 });

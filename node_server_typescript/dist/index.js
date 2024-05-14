@@ -14,7 +14,7 @@ const app = (0, express_1.default)();
 const port = process.env.PORT;
 const options = {
     origin: "*",
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
 };
 app.use((0, cors_1.default)(options));
 app.use((0, body_parser_1.json)());
@@ -24,5 +24,5 @@ mongoose_1.default
     .then(() => console.log("  Database connected 📟 "))
     .catch((err) => console.log(err));
 app.listen(port, () => {
-    console.log(`App is running at https://localhost:${port}`);
+    console.log(`App is running at http://localhost:${port}`);
 });
