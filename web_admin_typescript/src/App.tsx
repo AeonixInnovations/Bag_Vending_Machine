@@ -4,15 +4,17 @@ import DeviceList from './components/pages/DeviceList/DeviceList';
 import AppBar from './components/shared/appbar/Appbar';
 import ClickPhoto from './components/pages/clickPhoto/ClickPhoto';
 import WsPhoto from './components/pages/wsPhoto';
+import LoginPage from './components/pages/auth/loginPage/LoginPage';
 
 const App = () => {
   return (
     <div className="App min-h-screen">
       <BrowserRouter>
-        <AppBar />
+        {/* <AppBar /> */}
         <Routes>
           <Route path='/' element={<Navigate to="/home"/>}/>
           <Route path='/home' element={<DeviceList />}/>
+          <Route path='/login' element={<LoginPage />}/>
           {/* <Route path='/click' element={<ClickPhoto />}/> */}
           <Route path='/test' element={<WsPhoto />}/>
       </Routes>

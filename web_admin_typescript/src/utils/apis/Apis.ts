@@ -1,5 +1,5 @@
 import { header } from "../../configs/apiconfig";
-import { Get, Put } from "./ApiCall";
+import { Get, Post, Put } from "./ApiCall";
 
 export const getAllDeviceList = async () => {
     const response = await Get("/getAllDeviceList",header);
@@ -8,6 +8,11 @@ export const getAllDeviceList = async () => {
 
 export const updateDeviceMaxStock = async (payload:{device_id:string,max_stocks:number}) => {
     const response = await Put("/updateMaxStock",payload,header);
+    return response;
+}
+
+export const loginAdmin = async (payload:any) => {
+    const response = await Post("/loginAdmin",payload,header);
     return response;
 }
 // export const getCountByDate =async (device_id:string,date:string) => {
