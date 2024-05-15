@@ -12,10 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateMaxStock = exports.updateAvailableStock = exports.getDeviceMaxStockById = exports.getAllDeviceList = exports.registerNewDevice = void 0;
+exports.fetchDeviceData = exports.updateMaxStock = exports.updateAvailableStock = exports.getDeviceMaxStockById = exports.getAllDeviceList = exports.registerNewDevice = void 0;
 const CounterSchema_1 = __importDefault(require("../model/CounterSchema"));
 const registerNewDevice = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { device_id, stock } = req.body;
+    const { device_id, stock, address, max_stocks, available_stocks, machine_contact_number } = req.body;
     if (!device_id || !stock) {
         res.status(422).json({
             message: "fields are empty"
@@ -33,8 +33,10 @@ const registerNewDevice = (req, res) => __awaiter(void 0, void 0, void 0, functi
                 available_stocks: stock,
                 date: new Date().toDateString(),
                 device_id: device_id,
+                address: address,
                 last_update: new Date(),
                 max_stocks: stock,
+                machine_contact_number: machine_contact_number
             };
             const response = yield new CounterSchema_1.default(payload).save();
             console.log(response);
@@ -137,3 +139,26 @@ const updateMaxStock = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 exports.updateMaxStock = updateMaxStock;
+/****************************** */
+const fetchDeviceData = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { device_id } = req.body;
+    console.log(device_id);
+    try {
+        //send msg to the device
+        //send device id as response
+        // const response = {device_id: device_id};
+        const response = yield CounterSchema_1.default.find({ device_id: device_id }).select("-__v");
+        console.log(device_id);
+        return res.status(200).json({
+            message: "device id send",
+            data: response
+        });
+    }
+    catch (error) {
+        return res.status(500).json({
+            message: "internal server error",
+            error
+        });
+    }
+});
+exports.fetchDeviceData = fetchDeviceData;

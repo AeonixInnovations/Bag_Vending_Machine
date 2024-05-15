@@ -10,6 +10,10 @@ exports.counterCameraSchema = new mongoose_1.default.Schema({
         type: String,
         required: [true, "device_id can not be blank"],
     },
+    address: {
+        type: String,
+        required: true
+    },
     available_stocks: {
         type: Number,
         default: 0
@@ -25,6 +29,12 @@ exports.counterCameraSchema = new mongoose_1.default.Schema({
     date: {
         type: String,
         required: true
+    },
+    machine_contact_number: {
+        type: String,
+        required: true,
+        minlength: 10,
+        maxlength: 10
     }
 });
 const DeviceModel = mongoose_1.default.model("deviceDetails", exports.counterCameraSchema);
