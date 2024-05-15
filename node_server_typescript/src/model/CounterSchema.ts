@@ -7,6 +7,10 @@ export const counterCameraSchema: Schema<DeviceInterface> = new mongoose.Schema(
         type:String,
         required:[true,"device_id can not be blank"],
     },
+    address:{
+        type: String,
+        required: true
+    },
     available_stocks:{
         type:Number,
         default:0
@@ -22,6 +26,12 @@ export const counterCameraSchema: Schema<DeviceInterface> = new mongoose.Schema(
     date:{
         type:String,
         required:true
+    },
+    machine_contact_number: {
+        type: String,
+        required: true,
+        minlength: 10,
+        maxlength: 10
     }
 }
 );

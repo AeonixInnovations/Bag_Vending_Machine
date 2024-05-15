@@ -26,7 +26,7 @@ const LoginForm: React.FC = () => {
       const response = await loginAdmin(payload);
       setUsername("")
       setPassword("")
-      navigate('/');
+      navigate('/home');
       console.log('Login successful:', response.data);
     } catch (error) {
       console.error('Login error:', error);

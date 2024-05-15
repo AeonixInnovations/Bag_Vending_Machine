@@ -7,6 +7,7 @@ import {
   updateMaxStock,
 } from "../controller/CounterController";
 import { createAdmin, loginAdmin } from "../controller/auth.controllers";
+import { fetchDeviceData } from "../controller/CounterController";
 
 const router = express.Router();
 
@@ -18,5 +19,8 @@ router.get("/getMaxStock/:device_id", getDeviceMaxStockById);
 router.get("/getAllDeviceList", getAllDeviceList);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);
+
+router.get("/getAllDeviceList",getAllDeviceList);
+router.post("/fetchSingleDeviceData", fetchDeviceData);
 
 export { router as DeviceRouter };

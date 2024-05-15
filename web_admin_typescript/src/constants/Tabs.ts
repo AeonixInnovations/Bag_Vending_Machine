@@ -15,7 +15,10 @@ export const TABS = [
 
 export const TABLE_HEAD = [
     "Device Id",
+    "Address",
     "Available Stocks",
-    "Max Stocks",
-    "Status"
+    // "Max Stocks",
+    // "Status",
+    "Updated at",
+    "Action"
 ];

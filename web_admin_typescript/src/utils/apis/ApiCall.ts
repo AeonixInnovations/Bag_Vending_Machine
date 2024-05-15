@@ -15,7 +15,7 @@ export const Get = async (url: string, headers: Object) => {
 export const Post = async (url: string, payload: Object, headers: Object) => {
     // eslint-disable-next-line no-useless-catch
     try {
-        if (payload != null || payload != undefined) {
+        if (payload !== null || payload !== undefined) {
             const response = await axios.post(baseURL + url, payload, headers);
             return response;
         }
