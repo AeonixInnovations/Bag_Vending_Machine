@@ -10,9 +10,9 @@ const App = () => {
   return (
     <div className="App min-h-screen">
       <BrowserRouter>
-        {/* <AppBar /> */}
+      {/* <AppBar /> */}
         <Routes>
-          <Route path='/' element={<Navigate to="/home"/>}/>
+          <Route path='/' element={<Navigate to="/login"/>}/>
           <Route path='/home' element={<DeviceList />}/>
           <Route path='/login' element={<LoginPage />}/>
           {/* <Route path='/click' element={<ClickPhoto />}/> */}

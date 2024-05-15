@@ -3,10 +3,12 @@ import { DeviceInterface } from "../../../@types/interface/deviceDetails/DeviceI
 import { getAllDeviceList } from "../../../utils/apis/Apis";
 import DataTable from "../../shared/DataTable/DataTable";
 import Spinner from "../../shared/spinner/Spinner";
+import Appbar from "../../shared/appbar/Appbar";
 
 const DeviceList = () => {
   const [deviceList, setDeviceList] = useState<DeviceInterface[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+
   const getDeviceList = async () => {
     setLoading(true);
     const response = await getAllDeviceList();
@@ -15,17 +17,20 @@ const DeviceList = () => {
       setDeviceList(response?.data.data);
     }
   }
+ 
   const handleRefresh = async() =>{
     await getDeviceList();
   }
+  
   useEffect(() => {
     getDeviceList();
   }, []);
   return (
     <div>
+      <Appbar />
       {
         (loading) ? <Spinner /> :
-          <DataTable deviceList={deviceList} handleRefresh={handleRefresh}/>
+          <DataTable deviceList={deviceList} setDeviceList={setDeviceList}handleRefresh={handleRefresh} />
       }
     </div>
   )
