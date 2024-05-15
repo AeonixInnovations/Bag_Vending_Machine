@@ -9,7 +9,7 @@ dotenv.config();
 
 const app: Express = express();
 
-const port = process.env.PORT!;
+const port = process.env.PORT || 8181;
 
 const options: cors.CorsOptions = {
   origin: "*",
@@ -21,7 +21,10 @@ app.use(json());
 app.use([DeviceRouter]);
 
 mongoose
-  .connect(process.env.MONGO_URL!)
+  .connect(
+    process.env.MONGO_URL ||
+      "mongodb+srv://tuhin123:tuhin123@cluster0.pwhjgdx.mongodb.net"
+  )
   .then(() => console.log("  Database connected 📟 "))
   .catch((err) => console.log(err));
 
