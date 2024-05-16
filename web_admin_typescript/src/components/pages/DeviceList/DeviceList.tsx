@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react"
-import { DeviceInterface } from "../../../@types/interface/deviceDetails/DeviceInterface"
+import { useEffect, useState } from "react";
+import { DeviceInterface } from "../../../@types/interface/deviceDetails/DeviceInterface";
 import { getAllDeviceList } from "../../../utils/apis/Apis";
 import DataTable from "../../shared/DataTable/DataTable";
 import Spinner from "../../shared/spinner/Spinner";
 import Appbar from "../../shared/appbar/Appbar";
+import Layout from "../../layout/Layout";
 
 const DeviceList = () => {
   const [deviceList, setDeviceList] = useState<DeviceInterface[]>([]);
@@ -16,24 +17,29 @@ const DeviceList = () => {
     if (response?.status === 200) {
       setDeviceList(response?.data.data);
     }
-  }
- 
-  const handleRefresh = async() =>{
+  };
+
+  const handleRefresh = async () => {
     await getDeviceList();
-  }
-  
+  };
+
   useEffect(() => {
     getDeviceList();
   }, []);
   return (
-    <div>
-      <Appbar />
-      {
-        (loading) ? <Spinner /> :
-          <DataTable deviceList={deviceList} setDeviceList={setDeviceList}handleRefresh={handleRefresh} />
-      }
-    </div>
-  )
-}
+    <Layout>
+      {/* <Appbar /> */}
+      {loading ? (
+        <Spinner />
+      ) : (
+        <DataTable
+          deviceList={deviceList}
+          setDeviceList={setDeviceList}
+          handleRefresh={handleRefresh}
+        />
+      )}
+    </Layout>
+  );
+};
 
-export default DeviceList
+export default DeviceList;
