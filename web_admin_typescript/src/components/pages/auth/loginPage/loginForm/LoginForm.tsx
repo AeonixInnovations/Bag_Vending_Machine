@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import LoginTop from '../../../../shared/loginTob/LoginTop';
-import { EyeIcon, EyeSlashIcon, UserIcon } from '@heroicons/react/24/outline';
-import { loginAdmin } from '../../../../../utils/apis/Apis';
-import { useNavigate } from 'react-router-dom';
-
+import React, { useContext, useState } from "react";
+import axios from "axios";
+import LoginTop from "../../../../shared/loginTob/LoginTop";
+import { EyeIcon, EyeSlashIcon, UserIcon } from "@heroicons/react/24/outline";
+import { loginAdmin } from "../../../../../utils/apis/Apis";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../../../../contexts/authContext/authContext";
 
 const LoginForm: React.FC = () => {
+  const { setUser, user } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   const togglePasswordVisibility = () => {
     setShowPassword((prevState) => !prevState);
@@ -24,21 +25,23 @@ const LoginForm: React.FC = () => {
 
     try {
       const response = await loginAdmin(payload);
-      setUsername("")
-      setPassword("")
-      navigate('/home');
-      console.log('Login successful:', response.data);
+      setUser(response.data.result);
+      setUsername("");
+      setPassword("");
+      navigate("/home");
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
     }
   };
 
   return (
     <div className="space-y-6">
       <LoginTop />
-      <div className='mt-5'>
+      <div className="mt-5">
         {/* <div className=" text-center mb-3 text-xl text-gray-600 font-semibold -mt-1">Admin Login</div> */}
-        <label className="text-sm mb-2 block text-start">User email or phone</label>
+        <label className="text-sm mb-2 block text-start">
+          User email or phone
+        </label>
         <div className="relative flex items-center">
           <input
             name="username"
@@ -57,7 +60,7 @@ const LoginForm: React.FC = () => {
         <div className="relative flex items-center">
           <input
             name="password"
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
