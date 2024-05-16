@@ -5,7 +5,7 @@ const SmallCard = ({ title, count }: any) => {
   return (
     <a
       href="#"
-      className="flex flex-row items-center p-4 gap-3 xl:w-56 2xl:w-64  transition-all duration-500 bg-white border border-indigo-100 rounded-lg shadow-md hover:shadow-xl "
+      className="flex flex-row items-center p-4 gap-3 w-96 2xl:w-64  transition-all duration-500 bg-white border border-indigo-100 rounded-lg shadow-md hover:shadow-xl "
     >
       <div className="flex items-center justify-center w-12 h-12 bg-green-100 border border-green-200 rounded-full shadow-inner ">
         <svg
@@ -25,7 +25,15 @@ const SmallCard = ({ title, count }: any) => {
       </div>
       <div className="f">
         <h5 className="mb-3 text-lg font-medium text-gray-800">{title}</h5>
-        <Chip variant="gradient" value={count}></Chip>
+        <Chip
+          variant="gradient"
+          className="text-base p-0 font-medium"
+          value={count}
+        />
+        {/* <Chip
+          variant="gradient"
+          value={count}
+        /> */}
         {/* <Chip variant="ghost" value={count}></Chip> */}
       </div>
     </a>

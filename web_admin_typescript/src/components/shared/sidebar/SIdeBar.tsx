@@ -15,6 +15,7 @@ import {
   ShoppingBagIcon,
   UserCircleIcon,
 } from "@heroicons/react/24/outline";
+import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -32,29 +33,31 @@ const SideBar = () => {
           <SideProfile />
         </div>
         <List>
-          <ListItem className="text-gray-100 ">
-            <ListItemPrefix>
-              <PresentationChartBarIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Dashboard
-          </ListItem>
-
-          <ListItem className="text-gray-100">
-            <ListItemPrefix>
-              <InboxIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Update
-            <ListItemSuffix>
-              <Chip
-                value="14"
-                size="sm"
-                variant="gradient"
-                color="blue-gray"
-                className="rounded-full"
-              />
-            </ListItemSuffix>
-          </ListItem>
-
+          <Link to="/dashbaord">
+            <ListItem className="text-gray-100 ">
+              <ListItemPrefix>
+                <PresentationChartBarIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Dashboard
+            </ListItem>
+          </Link>
+          <Link to="/home">
+            <ListItem className="text-gray-100">
+              <ListItemPrefix>
+                <InboxIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Update
+              <ListItemSuffix>
+                <Chip
+                  value="14"
+                  size="sm"
+                  variant="gradient"
+                  color="blue-gray"
+                  className="rounded-full"
+                />
+              </ListItemSuffix>
+            </ListItem>
+          </Link>
           <ListItem className="text-gray-100">
             <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />
@@ -69,13 +72,6 @@ const SideBar = () => {
           </ListItem>
         </List>
       </div>
-      {/* Button to toggle sidebar */}
-      {/* <button
-        className="absolute top-0 left-0 z-10 w-10 h-10 bg-gray-900 text-white flex items-center justify-center"
-        onClick={toggleSidebar}
-      >
-        {isOpen ? ">" : "<"}
-      </button> */}
     </>
   );
 };
