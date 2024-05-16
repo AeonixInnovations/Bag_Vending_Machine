@@ -21,7 +21,7 @@ const Layout = ({ children }: any) => {
   return (
     <div className="flex h-screen w-full">
       <SideBar />
-      <div className="w-full h-screen overflow-y-scroll">
+      <div className="w-full h-screen overflow-y-scroll hide_scroll">
         <Appbar />
         <BreadCrumbs items={breadcrumbItems} />
         {children}

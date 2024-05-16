@@ -5,17 +5,14 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import {
-  PresentationChartLineIcon,
-  Square3Stack3DIcon,
-} from "@heroicons/react/24/outline";
+import { ChartBarIcon, Square3Stack3DIcon } from "@heroicons/react/24/outline";
 
 // If you're using Next.js please use the dynamic import for react-apexcharts and remove the import from the top for the react-apexcharts
 // import dynamic from "next/dynamic";
 // const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const chartConfig: any = {
-  type: "line",
+  type: "bar",
   height: 240,
   series: [
     {
@@ -36,12 +33,11 @@ const chartConfig: any = {
       enabled: false,
     },
     colors: ["#020617"],
-    stroke: {
-      lineCap: "round",
-      curve: "smooth",
-    },
-    markers: {
-      size: 0,
+    plotOptions: {
+      bar: {
+        columnWidth: "40%",
+        borderRadius: 2,
+      },
     },
     xaxis: {
       axisTicks: {
@@ -103,7 +99,7 @@ const chartConfig: any = {
   },
 };
 
-export default function Example() {
+export default function BarChart() {
   return (
     <Card className="w-1/2">
       <CardHeader
@@ -113,7 +109,7 @@ export default function Example() {
         className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
       >
         <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
-          <PresentationChartLineIcon className="h-6 w-6" />
+          <ChartBarIcon className="h-6 w-6" />
         </div>
         <div>
           <Typography variant="h6" color="blue-gray">
