@@ -8,8 +8,10 @@ import {
   ListItemSuffix,
 } from "@material-tailwind/react";
 import {
+  ChatBubbleBottomCenterTextIcon,
   Cog6ToothIcon,
   InboxIcon,
+  InformationCircleIcon,
   PowerIcon,
   PresentationChartBarIcon,
   ShoppingBagIcon,
@@ -60,16 +62,28 @@ const SideBar = () => {
           </Link>
           <ListItem className="text-gray-100">
             <ListItemPrefix>
+              <InformationCircleIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Help & support
+          </ListItem>
+          <ListItem className="text-gray-100">
+            <ListItemPrefix>
+              <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
+            </ListItemPrefix>
+            Feedback
+          </ListItem>
+          <ListItem className="text-gray-100">
+            <ListItemPrefix>
               <Cog6ToothIcon className="h-5 w-5" />
             </ListItemPrefix>
             Settings
           </ListItem>
-          <ListItem className="text-gray-100">
+          {/* <ListItem className="text-gray-100">
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
             Log Out
-          </ListItem>
+          </ListItem> */}
         </List>
       </div>
     </>

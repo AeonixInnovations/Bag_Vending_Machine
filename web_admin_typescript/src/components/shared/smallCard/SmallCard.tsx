@@ -24,10 +24,12 @@ const SmallCard = ({ title, count }: any) => {
         </svg>
       </div>
       <div className="f">
-        <h5 className="mb-3 text-lg font-medium text-gray-800">{title}</h5>
+        <h5 className="mb-3 text-md text-start font-medium text-gray-800">
+          {title}
+        </h5>
         <Chip
           variant="gradient"
-          className="text-base p-0 font-medium"
+          className="test-sm md:text-base p-0 font-medium w-32"
           value={count}
         />
         {/* <Chip
