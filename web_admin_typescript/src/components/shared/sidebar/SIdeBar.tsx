@@ -35,7 +35,7 @@ const SideBar = () => {
           <SideProfile />
         </div>
         <List>
-          <Link to="/dashbaord">
+          <Link to="/dashboard">
             <ListItem className="text-gray-100 ">
               <ListItemPrefix>
                 <PresentationChartBarIcon className="h-5 w-5" />

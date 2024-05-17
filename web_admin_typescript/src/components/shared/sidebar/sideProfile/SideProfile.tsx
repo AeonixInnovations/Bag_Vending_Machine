@@ -4,7 +4,7 @@ import { Avatar } from "@material-tailwind/react";
 import AuthContext from "../../../../contexts/authContext/authContext";
 
 const SideProfile = () => {
-  const { setUser, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   return (
     <div>
       <div className="flex flex-col items-center mt-6 -mx-2">

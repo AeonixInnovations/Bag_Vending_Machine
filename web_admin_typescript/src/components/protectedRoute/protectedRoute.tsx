@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useContext } from "react";
+import AuthContext from "../../contexts/authContext/authContext";
+import LoginPage from "../pages/auth/loginPage/LoginPage";
+import { Outlet } from "react-router-dom";
 
-const protectedRoute = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+const ProtectedRoute = () => {
+  const { user } = useContext(AuthContext);
+  return user?.user_name ? <Outlet /> : <LoginPage />;
+};
 
-export default protectedRoute
+export default ProtectedRoute;
