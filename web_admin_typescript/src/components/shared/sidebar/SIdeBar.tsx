@@ -60,6 +60,22 @@ const SideBar = () => {
               </ListItemSuffix>
             </ListItem>
           </Link>
+          <Link to="/refill-stock">
+            <ListItem className="text-gray-100">
+              <ListItemPrefix>
+                <InboxIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Refill Stock
+            </ListItem>
+          </Link>
+          <Link to="/register-machine">
+            <ListItem className="text-gray-100">
+              <ListItemPrefix>
+                <InboxIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Register Vending Machine
+            </ListItem>
+          </Link>
           <ListItem className="text-gray-100">
             <ListItemPrefix>
               <InformationCircleIcon className="h-5 w-5" />
@@ -78,12 +94,12 @@ const SideBar = () => {
             </ListItemPrefix>
             Settings
           </ListItem>
-          {/* <ListItem className="text-gray-100">
+          <ListItem className="text-gray-100">
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
             Log Out
-          </ListItem> */}
+          </ListItem>
         </List>
       </div>
     </>

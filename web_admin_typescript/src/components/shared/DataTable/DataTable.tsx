@@ -1,4 +1,4 @@
-import { ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import { ChevronDownIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
 import { CalendarIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import {
   Card,
@@ -14,6 +14,10 @@ import {
   IconButton,
   Tooltip,
   Spinner,
+  Menu,
+  MenuHandler,
+  MenuList,
+  MenuItem,
 } from "@material-tailwind/react";
 import dayjs from "dayjs";
 
@@ -23,13 +27,19 @@ import EditCell from "./editCell/EditCell";
 import { useState } from "react";
 import { DeviceInterface } from "../../../@types/interface/deviceDetails/DeviceInterface";
 import { getSingleDeviceData } from "../../../utils/apis/Apis";
+import { useNavigate } from "react-router-dom";
 
 const DataTable = ({
   deviceList,
   setDeviceList,
   handleRefresh,
+  pageNumber,
+  totalPages,
+  handlePrevious,
+  handleNext,
+  handleSelect
 }: DeviceListPropsInterface) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const getTime = (date: Date) => {
   //     const time = dayjs(date).format('h:mm:ss A');
   //     return time;
@@ -69,12 +79,16 @@ const DataTable = ({
     }
   };
   return (
-    <div className="px-10 my-10  w-ful">
+    // <div className="px-10 my-10 mt-28">
+    <div className="px-10  ">
       <Card className="h-full w-full">
         <CardHeader floated={false} shadow={false} className="rounded-none">
-          <div className="mb-8 flex items-center justify-between gap-8">
+          <div className="md:mb-5 flex flex-wrap items-center justify-between gap-8 text-left">
             <div>
-              <Typography className="mt-1 font-normal text-indigo-700">
+              <Typography variant="h5" color="indigo" className="mx-2">
+                All Vending Machine List
+              </Typography>
+              <Typography color="blue-gray" className="mt-1 mx-2 font-normal">
                 See information about all devices
               </Typography>
             </div>
@@ -87,6 +101,15 @@ const DataTable = ({
               >
                 {/* <ArrowPathIcon /> */}
                 Refresh
+              </Button>
+              <Button
+                variant="filled"
+                className="border-blue-500  inline-flex items-center"
+                size="sm"
+                onClick={() => navigate('/refill-details')}
+              >
+                {/* <ArrowPathIcon /> */}
+                Check Refill Count
               </Button>
             </div>
           </div>
@@ -106,13 +129,34 @@ const DataTable = ({
                     </div> */}
         </CardHeader>
         <CardBody className="overflow-scroll px-0">
+          <Menu >
+            <MenuHandler>
+            <Button
+          variant="outlined"
+          size="sm"
+          className="flex items-center gap-2 text-base font-normal capitalize tracking-normal mx-2"
+        >
+          Item per page
+          <ChevronDownIcon
+            strokeWidth={2.5}
+            className={`h-3 w-3 `}
+          />
+        </Button>
+            </MenuHandler>
+            <MenuList>
+            <MenuItem onClick={() => handleSelect(10)}>10</MenuItem>
+        <MenuItem onClick={() => handleSelect(25)}>25</MenuItem>
+        <MenuItem onClick={() => handleSelect(50)}>50</MenuItem>
+        <MenuItem onClick={() => handleSelect(100)}>100</MenuItem>
+            </MenuList>
+          </Menu>
           <table className="mt-4 w-full min-w-max table-auto text-left">
             <thead>
               <tr>
                 {TABLE_HEAD.map((head, index) => (
                   <th
                     key={head}
-                    className="cursor-pointer border-y border-blue-gray-100 bg-orange-50 p-4 transition-colors hover:bg-white "
+                    className=" border-y border-blue-gray-100 bg-orange-50 p-4 "
                   >
                     <Typography
                       variant="small"
@@ -120,12 +164,12 @@ const DataTable = ({
                       className="flex items-center justify-between gap-2 font-normal leading-none opacity-70"
                     >
                       {head}{" "}
-                      {index !== TABLE_HEAD.length - 1 && (
+                      {/* {index !== TABLE_HEAD.length - 1 && (
                         <ChevronUpDownIcon
                           strokeWidth={2}
                           className="h-4 w-4"
                         />
-                      )}
+                      )} */}
                     </Typography>
                   </th>
                 ))}
@@ -237,19 +281,29 @@ const DataTable = ({
             </tbody>
           </table>
         </CardBody>
-        {/* <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
-                    <Typography variant="small" color="blue-gray" className="font-normal">
-                        Page 1 of 10
-                    </Typography>
-                    <div className="flex gap-2">
-                        <Button variant="outlined" size="sm">
-                            Previous
-                        </Button>
-                        <Button variant="outlined" size="sm">
-                            Next
-                        </Button>
-                    </div>
-                </CardFooter> */}
+        <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
+          <Typography variant="small" color="blue-gray" className="font-normal">
+            {`Page: ${pageNumber} / ${totalPages}`}
+          </Typography>
+          <div className="flex gap-2">
+            <Button
+              variant="outlined"
+              size="sm"
+              onClick={handlePrevious}
+              disabled={pageNumber === 1}
+            >
+              Prev
+            </Button>
+            <Button
+              variant="outlined"
+              size="sm"
+              onClick={handleNext}
+              disabled={pageNumber === totalPages}
+            >
+              Next
+            </Button>
+          </div>
+        </CardFooter>
       </Card>
       {/* <Modal open={open} handleOpen={handleOpen} child={<Calender/>}/> */}
     </div>

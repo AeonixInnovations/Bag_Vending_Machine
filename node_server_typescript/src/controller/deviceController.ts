@@ -1,11 +1,14 @@
 import { Request, Response } from "express";
-import DeviceModel from "../model/CounterSchema";
+import DeviceModel from "../model/deviceSchema";
 import { DeviceInterface } from "../@types/interface/DeviceInterface";
+import { date } from "../services/date/date.service";
+import dayjs from "dayjs";
 
 
 export const registerNewDevice = async (req: Request, res: Response) => {
-    const { device_id, stock, address, max_stocks, available_stocks,machine_contact_number } = req.body;
-    if (!device_id || !stock) {
+    // const { device_id, stock, address, max_stocks, available_stocks,machine_contact_number , date} = req.body;
+    const { device_id,address,machine_contact_number , date} = req.body;
+    if (!device_id ) {
         res.status(422).json({
             message: "fields are empty"
         })
@@ -18,19 +21,17 @@ export const registerNewDevice = async (req: Request, res: Response) => {
                     message:"Device Already exist",
                 })
             }
-            const payload: DeviceInterface = {
-                available_stocks: stock,
-                date: new Date().toDateString(),
+            const payload: Object = {
+                date: dayjs(date,"DD/MM/YYYY"),
                 device_id: device_id,
                 address: address,
-                last_update: new Date(),
-                max_stocks: stock,
+                available_stocks: 0,
                 machine_contact_number: machine_contact_number
             }
-            const response = await new DeviceModel(payload).save();
+            const response = await DeviceModel.create(payload);
             console.log(response);
             if (response) {
-                return res.status(200).json({
+                return res.status(201).json({
                     message: "device register successfully",
                     result: response
                 })
@@ -45,21 +46,54 @@ export const registerNewDevice = async (req: Request, res: Response) => {
     }
 }
 
+// export const getAllDeviceList = async (req: Request, res: Response) => {
+//     try {
+//         const response = await DeviceModel.find({});
+//         if (response) {
+//             return res.status(200).json({
+//                 message: "device list get successfully",
+//                 data: response
+//             })
+//         }
+//     }
+//     catch (error) {
+//         return res.status(400).json({
+//             message: "error in server",
+//             error
+//         })
+//     }
+// }
 export const getAllDeviceList = async (req: Request, res: Response) => {
+    console.log(req.query.page,req.query.perPageItem)
     try {
-        const response = await DeviceModel.find({});
-        if (response) {
-            return res.status(200).json({
-                message: "device list get successfully",
-                data: response
-            })
+        const page: number = req.query.page ? parseInt(req.query.page as string, 10) : 1;
+        const perPage: number = req.query.perPageItem ? parseInt(req.query.perPageItem as string, 10) : 10;
+
+        if (isNaN(page) || isNaN(perPage) || page < 1 || perPage < 1) {
+            return res.status(400).json({
+                message: "Invalid page or perPageItem value"
+            });
         }
-    }
-    catch (error) {
-        return res.status(400).json({
-            message: "error in server",
-            error
-        })
+
+        const skip: number = (page - 1) * perPage;
+        const devices = await DeviceModel.find({})
+            .skip(skip)
+            .limit(perPage);
+
+        const totalDevices: number = await DeviceModel.countDocuments({});
+        const totalPages: number = Math.ceil(totalDevices / perPage);
+
+        return res.status(200).json({
+            message: "Device list fetched successfully",
+            data: devices,
+            currentPage: page,
+            totalPages: totalPages
+        });
+    } catch (error) {
+        console.error("Error in getAllDeviceList:", error);
+        return res.status(500).json({
+            message: "Error in server"
+        });
     }
 }
 
@@ -89,7 +123,8 @@ export const updateAvailableStock = async (req: Request, res: Response) => {
             { device_id: device_id },
             {
                 $set: {
-                    available_stocks: available_stocks
+                    available_stocks: available_stocks,
+                    last_update: new Date()
                 }
             }
         );
