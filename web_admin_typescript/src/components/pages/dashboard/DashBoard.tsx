@@ -10,10 +10,10 @@ const DashBoard = () => {
     <Layout>
       <div className=" hide_scroll">
         <DashboardTopStats />
-        {/* <div className="flex justify-between gap-10 px-5 my-10">
+        <div className="flex justify-between gap-10 px-5 my-10">
           <BarChart />
           <LineChartComponent />
-        </div> */}
+        </div>
       </div>
     </Layout>
   );

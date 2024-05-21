@@ -3,9 +3,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.counterCameraSchema = void 0;
+exports.deviceSchema = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
-exports.counterCameraSchema = new mongoose_1.default.Schema({
+exports.deviceSchema = new mongoose_1.default.Schema({
     device_id: {
         type: String,
         required: [true, "device_id can not be blank"],
@@ -37,5 +37,5 @@ exports.counterCameraSchema = new mongoose_1.default.Schema({
         maxlength: 10
     }
 });
-const DeviceModel = mongoose_1.default.model("deviceDetails", exports.counterCameraSchema);
+const DeviceModel = mongoose_1.default.model("deviceDetails", exports.deviceSchema);
 exports.default = DeviceModel;

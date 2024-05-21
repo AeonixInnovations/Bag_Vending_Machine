@@ -35,7 +35,7 @@ const SideBar = () => {
           <SideProfile />
         </div>
         <List>
-          <Link to="/dashbaord">
+          <Link to="/dashboard">
             <ListItem className="text-gray-100 ">
               <ListItemPrefix>
                 <PresentationChartBarIcon className="h-5 w-5" />
@@ -58,6 +58,22 @@ const SideBar = () => {
                   className="rounded-full"
                 />
               </ListItemSuffix>
+            </ListItem>
+          </Link>
+          <Link to="/refill-stock">
+            <ListItem className="text-gray-100">
+              <ListItemPrefix>
+                <InboxIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Refill Stock
+            </ListItem>
+          </Link>
+          <Link to="/register-machine">
+            <ListItem className="text-gray-100">
+              <ListItemPrefix>
+                <InboxIcon className="h-5 w-5" />
+              </ListItemPrefix>
+              Register Vending Machine
             </ListItem>
           </Link>
           <ListItem className="text-gray-100">
