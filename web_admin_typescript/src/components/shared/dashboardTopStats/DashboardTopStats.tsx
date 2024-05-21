@@ -5,15 +5,15 @@ const DashboardTopStats = () => {
   const rows = [
     [
       { title: "Total Machines", count: 163 },
-      { title: "Bags Disband", count: 265 },
-      { title: "xyz", count: 65 },
-      { title: "total shell", count: 105 },
+      { title: "Total Markets", count: 265 },
+      { title: "Out of order", count: 65 },
+      { title: "total sell", count: 105 },
     ],
     [
-      { title: "Total Bags Disband", count: 163 },
-      { title: "Disbanded this week", count: 265 },
-      { title: "This week", count: 105 },
-      { title: "Today", count: 65 },
+      { title: "Total Bags Disband", count: 605 },
+      { title: "Bags Disbanded this month", count: 465 },
+      { title: "Bags Disbanded this week", count: 105 },
+      { title: "Bags Disbanded Today", count: 35 },
     ],
   ];
 

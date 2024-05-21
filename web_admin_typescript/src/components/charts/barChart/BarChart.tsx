@@ -113,7 +113,7 @@ export default function BarChart() {
         </div>
         <div>
           <Typography variant="h6" color="blue-gray">
-            Line Chart
+            Bar Chart
           </Typography>
         </div>
       </CardHeader>
