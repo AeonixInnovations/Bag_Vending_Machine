@@ -25,7 +25,7 @@ export const deviceSchema
     //     default:Date.now()
     // },
     date:{
-        type:String,
+        type:Date,
         required:true
     },
     machine_contact_number: {

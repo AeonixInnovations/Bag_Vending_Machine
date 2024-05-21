@@ -1,9 +1,11 @@
+import { Date } from "mongoose";
+
 export interface DeviceInterface{
     device_id:string,
     address: string,
     available_stocks:number,
     // max_stocks:number,
     // last_update:Date,
-    date:string,
+    date:Date,
     machine_contact_number: string
 } 

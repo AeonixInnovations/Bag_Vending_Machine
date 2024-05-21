@@ -25,7 +25,7 @@ const ViewRefillDetails = () => {
   const [startDate, setStartDate] = React.useState<Date>();
   const [endDate, setEndDate] = React.useState<Date>();
 
-  const [refillDetails, setRefillDetails] = React.useState<Object>({});
+  const [refillDetails, setRefillDetails] = React.useState<any>([]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,7 +42,8 @@ const ViewRefillDetails = () => {
     const {deviceId}:any = formData;
     try {
         const response = await getRefillDetails(deviceId, formattedStartDate, formattedEndDate);
-        console.log(response?.data.result)
+        
+        setRefillDetails(response?.data.result);
     } catch (error) {
         
     }
@@ -242,9 +243,8 @@ const ViewRefillDetails = () => {
             </Button>
           </div>
         </CardBody>
-        <CardFooter className="border text-left">
+        
               <RefillDetailsTable refillDetails={refillDetails}/>
-        </CardFooter>
       </Card>
     </Layout>
   );

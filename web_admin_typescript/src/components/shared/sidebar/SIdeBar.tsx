@@ -94,12 +94,12 @@ const SideBar = () => {
             </ListItemPrefix>
             Settings
           </ListItem>
-          {/* <ListItem className="text-gray-100">
+          <ListItem className="text-gray-100">
             <ListItemPrefix>
               <PowerIcon className="h-5 w-5" />
             </ListItemPrefix>
             Log Out
-          </ListItem> */}
+          </ListItem>
         </List>
       </div>
     </>

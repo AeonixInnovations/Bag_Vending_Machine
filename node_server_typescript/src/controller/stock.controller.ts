@@ -125,7 +125,7 @@ export const postRefillCount = async (req: Request, res: Response) => {
     let available_stock: number;
     const oldStockDetails = await StockModel.findOne({
       device_id: device_id,
-      date: dayjs(yesterday, "DD/MM/YYYY").format("YYYY-MM-DD"),
+      date: dayjs(yesterday, "DD/MM/YYYY"),
     });
     let sellCount, currentStock;
 
@@ -139,7 +139,7 @@ export const postRefillCount = async (req: Request, res: Response) => {
 
     const currentStockDetails = await StockModel.findOne({
       device_id: device_id,
-      date: dayjs().format("YYYY-MM-DD"),
+      date: dayjs(),
     });
     if (currentStockDetails) {
       console.log(currentStockDetails)
@@ -155,9 +155,9 @@ export const postRefillCount = async (req: Request, res: Response) => {
 
     console.log(sellCount);
 
-    const payload: object = {
+    const payload: Object = {
       device_id: device_id,
-      date: dayjs(date, 'DD/MM/YYYY').format("YYYY-MM-DD"),
+      date: dayjs(date, 'DD/MM/YYYY'),
       refillCount: refillCount,
       todaySellCount: sellCount,
     };
@@ -167,7 +167,7 @@ export const postRefillCount = async (req: Request, res: Response) => {
       setDefaultsOnInsert: true, // Set default values for fields if upserting
     };
     const newStockDetails = await StockModel.findOneAndUpdate(
-      { device_id: device_id, date: dayjs(date, 'DD/MM/YYYY').format("YYYY-MM-DD"), },
+      { device_id: device_id, date: dayjs(date, 'DD/MM/YYYY'), },
       { $set: payload },
       options
     );

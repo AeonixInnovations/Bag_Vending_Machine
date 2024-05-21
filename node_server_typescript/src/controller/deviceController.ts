@@ -21,8 +21,8 @@ export const registerNewDevice = async (req: Request, res: Response) => {
                     message:"Device Already exist",
                 })
             }
-            const payload: DeviceInterface = {
-                date: dayjs(date,"DD/MM/YYYY").format("YYYY-MM-DD"),
+            const payload: Object = {
+                date: dayjs(date,"DD/MM/YYYY"),
                 device_id: device_id,
                 address: address,
                 available_stocks: 0,

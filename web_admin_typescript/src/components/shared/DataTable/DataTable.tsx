@@ -27,6 +27,7 @@ import EditCell from "./editCell/EditCell";
 import { useState } from "react";
 import { DeviceInterface } from "../../../@types/interface/deviceDetails/DeviceInterface";
 import { getSingleDeviceData } from "../../../utils/apis/Apis";
+import { useNavigate } from "react-router-dom";
 
 const DataTable = ({
   deviceList,
@@ -38,7 +39,7 @@ const DataTable = ({
   handleNext,
   handleSelect
 }: DeviceListPropsInterface) => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   // const getTime = (date: Date) => {
   //     const time = dayjs(date).format('h:mm:ss A');
   //     return time;
@@ -100,6 +101,15 @@ const DataTable = ({
               >
                 {/* <ArrowPathIcon /> */}
                 Refresh
+              </Button>
+              <Button
+                variant="filled"
+                className="border-blue-500  inline-flex items-center"
+                size="sm"
+                onClick={() => navigate('/refill-details')}
+              >
+                {/* <ArrowPathIcon /> */}
+                Check Refill Count
               </Button>
             </div>
           </div>
