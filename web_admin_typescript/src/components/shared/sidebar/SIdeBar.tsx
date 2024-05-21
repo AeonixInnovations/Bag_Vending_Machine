@@ -88,18 +88,8 @@ const SideBar = () => {
             </ListItemPrefix>
             Feedback
           </ListItem>
-          <ListItem className="text-gray-100">
-            <ListItemPrefix>
-              <Cog6ToothIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Settings
-          </ListItem>
-          <ListItem className="text-gray-100">
-            <ListItemPrefix>
-              <PowerIcon className="h-5 w-5" />
-            </ListItemPrefix>
-            Log Out
-          </ListItem>
+          
+          
         </List>
       </div>
     </>

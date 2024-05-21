@@ -89,7 +89,7 @@ const AddMachineForm = () => {
           shadow={false}
           className="rounded-none text-left mb-5"
         >
-          <Typography variant="h5" color="indigo" className="mx-2">
+          <Typography variant="h5" color="green" className="mx-2">
             Register Vending Machine
           </Typography>
           <Typography color="blue-gray" className="mt-1 mx-2 font-normal">

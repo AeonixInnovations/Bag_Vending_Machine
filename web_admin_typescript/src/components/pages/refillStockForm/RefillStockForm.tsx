@@ -85,7 +85,7 @@ const RefillStockForm = () => {
           shadow={false}
           className="rounded-none text-left mb-5"
         >
-          <Typography variant="h5" color="indigo" className="mx-2">
+          <Typography variant="h5" color="green" className="mx-2">
             Vending Machine Stock Refill Form
           </Typography>
           <Typography color="blue-gray" className="mt-1 mx-2 font-normal">

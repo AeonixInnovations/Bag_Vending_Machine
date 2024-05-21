@@ -1,76 +1,68 @@
-import React from "react";
-import {
-  Drawer,
-  Button,
-  Typography,
-  IconButton,
-} from "@material-tailwind/react";
-import { Cog6ToothIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftStartOnRectangleIcon, BellIcon, ClockIcon, Cog6ToothIcon, CreditCardIcon, UserCircleIcon, UserIcon } from '@heroicons/react/24/outline'
+import { Avatar, Button, Dialog, DialogBody, DialogFooter, DialogHeader, IconButton, Menu, MenuHandler, MenuItem, MenuList, Typography } from '@material-tailwind/react'
+import React, { useContext } from 'react'
+import AuthContext from '../../../contexts/authContext/authContext'
+import LogoutDrawer from '../logoutModal/LogoutDrawer'
+
+
+const SideDrawer = () => {
+  const {user}= useContext(AuthContext)
+  const [open, setOpen] = React.useState(false);
  
-export function DrawerPlacement() {
-  const [openTop, setOpenTop] = React.useState(false);
-  const [openRight, setOpenRight] = React.useState(false);
-  const [openBottom, setOpenBottom] = React.useState(false);
-  const [openLeft, setOpenLeft] = React.useState(false);
- 
-  const openDrawerTop = () => setOpenTop(true);
-  const closeDrawerTop = () => setOpenTop(false);
-  const openDrawerRight = () => setOpenRight(true);
-  const closeDrawerRight = () => setOpenRight(false);
-  const openDrawerBottom = () => setOpenBottom(true);
-  const closeDrawerBottom = () => setOpenBottom(false);
-  const openDrawerLeft = () => setOpenLeft(true);
-  const closeDrawerLeft = () => setOpenLeft(false);
+  const handleOpen = () => setOpen(!open);
+  const handleClose = () => setOpen(!open);
  
   return (
-    <React.Fragment>
-      <div className="flex flex-wrap gap-4">
-        <div onClick={openDrawerRight}><Cog6ToothIcon className="h-6 w-6 text-gray-700" /></div>
-      </div>
-       
-      <Drawer
-        placement="right"
-        open={openRight}
-        onClose={closeDrawerRight}
-        className="p-4"
-      >
-        <div className="mb-6 flex items-center justify-between">
-          <Typography variant="h5" color="blue-gray">
-            Material Tailwind
-          </Typography>
-          <IconButton
-            variant="text"
-            color="blue-gray"
-            onClick={closeDrawerRight}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={2}
-              stroke="currentColor"
-              className="h-5 w-5"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </IconButton>
-        </div>
-        <Typography color="gray" className="mb-8 pr-4 font-normal">
-          Material Tailwind features multiple React and HTML components, all
-          written with Tailwind CSS classes and Material Design guidelines.
-        </Typography>
-        <div className="flex gap-2">
-          <Button size="sm" variant="outlined">
-            Documentation
-          </Button>
-          <Button size="sm">Get Started</Button>
-        </div>
-      </Drawer>
-      
-    </React.Fragment>
-  );
+    <Menu>
+            <MenuHandler >
+              <IconButton variant="text" color="blue-gray">
+                <Cog6ToothIcon className="h-7 w-7 text-blue-gray-500" />
+              </IconButton>
+            </MenuHandler>
+            <MenuList className=" border-2 -ml-8 w-64 ">
+              <MenuItem className="flex items-center gap-3 mb-2  bg-green-50">
+              <div className="grid h-9 w-9 place-items-center rounded-full bg-green-500">
+                  <UserIcon  className="h-6 w-6 text-white " />
+                </div>
+                <div>
+                  <Typography
+                    variant="small"
+                    color="green"
+                    className="mb-1 font-normal"
+                  >
+                    <strong>{user?.user_name}</strong> 
+                  </Typography>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="flex items-center gap-1 text-xs font-normal opacity-60"
+                  >
+                   view profile
+                  </Typography>
+                </div>
+              </MenuItem>
+              
+              <MenuItem className="flex items-center gap-4 hover:bg-red-50">
+                <div className="grid h-9 w-9 place-items-center rounded-full bg-red-500">
+                  <ArrowLeftStartOnRectangleIcon className="h-6 w-6 text-white " />
+                </div>
+                <div>
+                  <Typography
+                    variant="h6"
+                    color="red"
+                    className=" font-normal"
+                  >
+                   <button onClick={handleOpen}>Logout</button>
+                  </Typography>
+                  
+                </div>
+              </MenuItem>
+            </MenuList>
+            <Dialog open={open} handler={handleOpen} >
+        <LogoutDrawer handleClose={handleClose}/>
+      </Dialog>
+          </Menu>
+  )
 }
+
+export default SideDrawer
