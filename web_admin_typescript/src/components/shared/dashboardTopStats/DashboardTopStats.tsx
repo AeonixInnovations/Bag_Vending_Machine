@@ -11,9 +11,9 @@ const DashboardTopStats = () => {
     ],
     [
       { title: "Total Bags Disband", count: 605 },
-      { title: "Bags Disbanded this month", count: 465 },
-      { title: "Bags Disbanded this week", count: 105 },
-      { title: "Bags Disbanded Today", count: 35 },
+      { title: "Bag Dispense this month", count: 465 },
+      { title: "Bag Dispense this week", count: 105 },
+      { title: "Bag Dispense Today", count: 35 },
     ],
   ];
 
