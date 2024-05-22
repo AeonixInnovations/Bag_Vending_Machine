@@ -3,6 +3,6 @@ export interface DeviceInterface{
     address: string,
     available_stocks:number,
     max_stocks:number,
-    last_update:Date,
+    updatedAt:Date,
     date:string
 }

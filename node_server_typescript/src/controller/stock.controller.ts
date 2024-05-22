@@ -57,7 +57,7 @@ export const postDailyStock = async (req: Request, res: Response) => {
     console.log(sellCount);
     const payload: object = {
       device_id: device_id,
-      date: date,
+      date: dayjs(date, 'DD/MM/YYYY'),
       todaySellCount: sellCount,
       currentStock: currentStock,
     };
@@ -67,7 +67,7 @@ export const postDailyStock = async (req: Request, res: Response) => {
       setDefaultsOnInsert: true, // Set default values for fields if upserting
     };
     const newStockDetails = await StockModel.findOneAndUpdate(
-      { device_id: device_id, date: date },
+      { device_id: device_id, date: dayjs(date, 'DD/MM/YYYY') },
       { $set: payload },
       options
     );

@@ -28,7 +28,7 @@ const LoginForm: React.FC = () => {
       setUser(response.data.result);
       setUsername("");
       setPassword("");
-      navigate("/home");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error);
     }

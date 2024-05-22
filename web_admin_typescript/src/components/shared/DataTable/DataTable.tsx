@@ -66,7 +66,7 @@ const DataTable = ({
         setDeviceList((prevState) => {
           return prevState.map((device) => {
             if (device.device_id === device_id) {
-              return updatedDevice;
+              return  { ...device, ...updatedDevice };
             }
             return device;
           });
@@ -183,7 +183,7 @@ const DataTable = ({
                     address,
                     available_stocks,
                     max_stocks,
-                    last_update,
+                    updatedAt,
                     date,
                   },
                   index
@@ -252,8 +252,8 @@ const DataTable = ({
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {`${dayjs(last_update).format("DD-MM-YYYY")}, ${dayjs(
-                            last_update
+                          {`${dayjs(updatedAt).format("DD-MM-YYYY")}, ${dayjs(
+                            updatedAt
                           ).format("HH:mm:ss")}`}
                         </Typography>
                       </td>

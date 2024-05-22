@@ -101,7 +101,7 @@ const RefillStockForm = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Device ID*
+                  Device ID<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <input
                   name="deviceId"
@@ -119,7 +119,7 @@ const RefillStockForm = () => {
                   color="blue-gray"
                   className="mb-3  text-left"
                 >
-                  Refill Count*
+                  Refill Count<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <input
                   name="refillCount"
@@ -137,7 +137,7 @@ const RefillStockForm = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Date
+                  Date<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 {/* <input
                   className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"

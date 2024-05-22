@@ -7,14 +7,14 @@ const DashboardTopStats = () => {
     [
       { title: "Total Machines", count: 163 , icon: ComputerDesktopIcon},
       { title: "Total Markets", count: 265 ,icon: MapPinIcon },
-      { title: "Out of order", count: 65 ,icon: TruckIcon},
-      { title: "Total sell", count: 105 ,icon: CurrencyRupeeIcon },
+      { title: "Machines Working", count: 65 ,icon: TruckIcon},
+      { title: "Machines Out of Order", count: 20 ,icon: TruckIcon },
     ],
     [
       { title: "Total Bags Dispensed", count: 605 ,icon: ShoppingBagIcon},
-      { title: "Bag Dispense this month", count: 465 ,icon: CalendarIcon },
-      { title: "Bag Dispense this week", count: 105,icon: CalendarDaysIcon   },
-      { title: "Bag Dispense Today", count: 35 ,icon: SunIcon  },
+      { title: "Bags Dispensed This Month", count: 465 ,icon: CalendarIcon },
+      { title: "Bags Dispensed This Week", count: 105,icon: CalendarDaysIcon   },
+      { title: "Bags Dispensed Today", count: 35 ,icon: SunIcon  },
     ],
   ];
 

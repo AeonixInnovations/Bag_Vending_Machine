@@ -105,7 +105,7 @@ const AddMachineForm = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Device ID*
+                  Device ID<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <input
                   name="deviceId"
@@ -123,7 +123,7 @@ const AddMachineForm = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Machine Phone Number*
+                  Machine Phone Number<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <input
                   name="machine_contact_number"
@@ -144,7 +144,7 @@ const AddMachineForm = () => {
                     color="blue-gray"
                     className="mb-3 text-left"
                   >
-                    Date*
+                    Date<span style={{ color: 'red' }}>*</span>
                   </Typography>
                   {/* <input
                   className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"
@@ -222,7 +222,7 @@ const AddMachineForm = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Address*
+                  Address<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <input
                   name="address"

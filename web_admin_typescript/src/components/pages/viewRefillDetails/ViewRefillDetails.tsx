@@ -81,7 +81,7 @@ const ViewRefillDetails = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Device ID*
+                  Device ID<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <input
                   name="deviceId"
@@ -99,7 +99,7 @@ const ViewRefillDetails = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Start Date*
+                  Start Date<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <div>
                   <Popover placement="bottom">
@@ -168,7 +168,7 @@ const ViewRefillDetails = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  End Date*
+                  End Date<span style={{ color: 'red' }}>*</span>
                 </Typography>
                 <div>
                   <Popover placement="bottom">
