@@ -42,8 +42,10 @@ const ViewRefillDetails = () => {
     const {deviceId}:any = formData;
     try {
         const response = await getRefillDetails(deviceId, formattedStartDate, formattedEndDate);
-        
-        setRefillDetails(response?.data.result);
+        if(response===undefined)
+          setRefillDetails(undefined);  
+        else
+          setRefillDetails(response?.data.result);
     } catch (error) {
         
     }
@@ -244,7 +246,12 @@ const ViewRefillDetails = () => {
           </div>
         </CardBody>
         
-              <RefillDetailsTable refillDetails={refillDetails}/>
+              {refillDetails!==undefined ?<RefillDetailsTable refillDetails={refillDetails}/>:   <Typography
+                  variant="h4"
+                  className="mx-7 my-2 text-left"
+                >
+                  No data found
+                </Typography>}
       </Card>
     </Layout>
   );

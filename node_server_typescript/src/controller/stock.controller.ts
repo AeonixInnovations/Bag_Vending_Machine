@@ -26,9 +26,12 @@ const calculateSellCount = (
     return refillCount;
   } else return 0;
 };
-
+/**  
+ *  
+ */
 export const postDailyStock = async (req: Request, res: Response) => {
   const { device_id, date, currentStock } = req.body;
+  console.log(date);
   if (!device_id || !date || !currentStock) {
     return res.status(422).json({
       message: "fields are empty",
@@ -57,15 +60,17 @@ export const postDailyStock = async (req: Request, res: Response) => {
     console.log(sellCount);
     const payload: object = {
       device_id: device_id,
-      date: dayjs(date, 'DD/MM/YYYY'),
+      // date: dayjs(date, 'DD/MM/YYYY'),
+      date: dayjs(date, "DD/MM/YYYY").subtract(0, "day").format("DD/MM/YYYY"),
       todaySellCount: sellCount,
       currentStock: currentStock,
     };
     const options: Object = {
       upsert: true, // Create a new document if no document matches the query
       new: true, // Return the modified document rather than the original
-      setDefaultsOnInsert: true, // Set default values for fields if upserting
+      // setDefaultsOnInsert: true, // Set default values for fields if upserting
     };
+    console.log(date,dayjs(date, 'DD/MM/YYYY'))
     const newStockDetails = await StockModel.findOneAndUpdate(
       { device_id: device_id, date: dayjs(date, 'DD/MM/YYYY') },
       { $set: payload },
@@ -78,7 +83,7 @@ export const postDailyStock = async (req: Request, res: Response) => {
     }
     const deviceDetailsUpdate = await DeviceModel.findOneAndUpdate(
       { device_id: device_id },
-      { $set: { last_update: dayjs(), available_stocks: currentStock } },
+      { $set: { available_stocks: currentStock } },
       options
     );
     if (!deviceDetailsUpdate) {
@@ -105,12 +110,14 @@ export const postDailyStock = async (req: Request, res: Response) => {
  */
 export const postRefillCount = async (req: Request, res: Response) => {
   const { device_id, date, refillCount } = req.body;
+  console.log("date in  refill", date);
   if (!device_id || !date || !refillCount) {
     return res.status(422).json({
       message: "fields are empty",
     });
   }
   try {
+    
       const deviceDetails = await DeviceModel.findOne({device_id: device_id});
       if(!deviceDetails){
         return res.status(404).json({

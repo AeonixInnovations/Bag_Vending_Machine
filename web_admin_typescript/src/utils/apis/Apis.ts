@@ -33,6 +33,7 @@ export const postRefillStockData = async (deviceId: string, refillCount: number,
         refillCount: refillCount,
         date: date
     }
+    console.log(date)
     const response = await Post("/postRefillCount", payload, header);
     return response;
 }

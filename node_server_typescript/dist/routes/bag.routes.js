@@ -9,6 +9,7 @@ const deviceController_1 = require("../controller/deviceController");
 const auth_controllers_1 = require("../controller/auth.controllers");
 const deviceController_2 = require("../controller/deviceController");
 const stock_controller_1 = require("../controller/stock.controller");
+const dashboard_controller_1 = require("../controller/dashboard.controller");
 const router = express_1.default.Router();
 exports.DeviceRouter = router;
 // router.get("/")
@@ -24,3 +25,8 @@ router.post("/loginAdmin", auth_controllers_1.loginAdmin);
 router.post("/postStock", stock_controller_1.postDailyStock);
 router.post("/postRefillCount", stock_controller_1.postRefillCount);
 router.get("/getRefillStockDetails", stock_controller_1.getRefillStockDetails);
+/**
+ * dashboard
+ */
+router.get("/getTotalDevices", dashboard_controller_1.getTotalDevices);
+router.get("/getDispensedCounts", dashboard_controller_1.getDispensedCounts);

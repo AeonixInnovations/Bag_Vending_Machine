@@ -5,5 +5,5 @@ export interface StockInterface {
   date: Date;
   todaySellCount: number;
   refillCount: number;
-  currentStock: number
+  currentStock: number;
 }
