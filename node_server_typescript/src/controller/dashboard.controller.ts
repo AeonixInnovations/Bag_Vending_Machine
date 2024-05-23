@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import DeviceModel from "../model/deviceSchema";
 import StockModel from "../model/stock.schema";
 import dayjs from "dayjs";
-
+import isoWeek from "dayjs/plugin/isoWeek";
 export const getTotalDevices = async (req: Request, res: Response) => {
   try {
     const response = await DeviceModel.find();
