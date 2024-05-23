@@ -1,9 +1,9 @@
 import { Request, Response, response } from "express";
-import StockModel from "../model/stock.schema";
-import DeviceModel from "../model/deviceSchema";
-import { StockInterface } from "../@types/interface/Stock.interface";
+
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import StockModel from "../../model/stock.schema";
+import DeviceModel from "../../model/deviceSchema";
 dayjs.extend(customParseFormat);
 
 

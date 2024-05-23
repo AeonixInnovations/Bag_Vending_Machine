@@ -8,8 +8,9 @@ const express_1 = __importDefault(require("express"));
 const deviceController_1 = require("../controller/deviceController");
 const auth_controllers_1 = require("../controller/auth.controllers");
 const deviceController_2 = require("../controller/deviceController");
-const stock_controller_1 = require("../controller/stock.controller");
 const dashboard_controller_1 = require("../controller/dashboard.controller");
+const stockUpdate_controller_1 = require("../controller/stockController/stockUpdate.controller");
+const stock_controller_1 = require("../controller/stockController/stock.controller");
 const router = express_1.default.Router();
 exports.DeviceRouter = router;
 // router.get("/")
@@ -30,3 +31,4 @@ router.get("/getRefillStockDetails", stock_controller_1.getRefillStockDetails);
  */
 router.get("/getTotalDevices", dashboard_controller_1.getTotalDevices);
 router.get("/getDispensedCounts", dashboard_controller_1.getDispensedCounts);
+router.post("/updateStocks/:id", stockUpdate_controller_1.createStockForDevice);
