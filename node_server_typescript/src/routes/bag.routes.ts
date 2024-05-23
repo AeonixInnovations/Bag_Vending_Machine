@@ -8,8 +8,8 @@ import {
 } from "../controller/deviceController";
 import { createAdmin, loginAdmin } from "../controller/auth.controllers";
 import { fetchDeviceData } from "../controller/deviceController";
-import { getRefillStockDetails, postDailyStock, postRefillCount } from "../controller/stock.controller";
 import { getDispensedCounts, getOutOfOrderCount, getTotalDevices } from "../controller/dashboard.controller";
+import { createStockForDevice } from "../controller/stockController/stockUpdate.controller";
 
 const router = express.Router();
 
@@ -23,6 +23,7 @@ router.get("/getAllDeviceList",getAllDeviceList);
 router.post("/fetchSingleDeviceData", fetchDeviceData);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);
+router.post("/updateStocks/:device_id", createStockForDevice);
 
 // router.post("/postStock",postDailyStock);
 // router.post("/postRefillCount", postRefillCount);
