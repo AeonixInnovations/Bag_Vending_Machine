@@ -7,7 +7,7 @@ import StockModel from "../../model/stock.schema";
 export const createStockForDevice = async (req: Request, res: Response) => {
   try {
     const { device_id } = req.params;
-    const { refillCount } = req.body;
+    const { refillCount ,refiller } = req.body;
 
     if (typeof refillCount !== "number") {
       return res.status(StatusCodes.BAD_REQUEST).json({
@@ -28,6 +28,7 @@ export const createStockForDevice = async (req: Request, res: Response) => {
       todaySellCount: device.available_stocks + refillCount,
       refillCount: refillCount,
       currentStock: device.available_stocks + refillCount,
+      refiller:refiller
     });
 
     const savedStock = await newStock.save();

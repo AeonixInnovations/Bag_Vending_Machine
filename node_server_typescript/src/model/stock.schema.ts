@@ -1,6 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { StockInterface } from "../@types/interface/Stock.interface";
 import DeviceModel from "./deviceSchema";
+import { ObjectId } from "mongodb";
 
 export const stockSchema: Schema<StockInterface> = new mongoose.Schema({
   device_id: {
@@ -23,6 +24,9 @@ export const stockSchema: Schema<StockInterface> = new mongoose.Schema({
   },
   currentStock: {
     type: Number,
+  },
+  refiller: {
+    type: ObjectId,
   },
 }, {
   timestamps: true,

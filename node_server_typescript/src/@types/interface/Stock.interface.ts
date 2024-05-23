@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { Date } from "mongoose";
 
 export interface StockInterface {
@@ -6,4 +7,5 @@ export interface StockInterface {
   todaySellCount: number;
   refillCount: number;
   currentStock: number;
+  refiller:ObjectId;
 }

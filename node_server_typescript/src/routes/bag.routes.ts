@@ -25,9 +25,9 @@ router.post("/fetchSingleDeviceData", fetchDeviceData);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);
 
-router.post("/postStock",postDailyStock);
-router.post("/postRefillCount", postRefillCount);
-router.get("/getRefillStockDetails",getRefillStockDetails);
+// router.post("/postStock",postDailyStock);
+// router.post("/postRefillCount", postRefillCount);
+// router.get("/getRefillStockDetails",getRefillStockDetails);
 
 /**
  * dashboard
