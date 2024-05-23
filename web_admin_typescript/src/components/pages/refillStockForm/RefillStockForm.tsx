@@ -21,17 +21,16 @@ import { format } from "date-fns";
 import { postRefillStockData } from "../../../utils/apis/Apis";
 
 const RefillStockForm = () => {
-  
   const [formData, setFormData] = useState<RefillStockFormInterface | null>({
     deviceId: "",
     refillCount: "",
   });
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<Date>(new Date());
   const [isSave, setIsSave] = useState<Number | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData((prevData:any ) => ({
+    setFormData((prevData: any) => ({
       ...prevData,
       [name]: value,
     }));
@@ -40,8 +39,9 @@ const RefillStockForm = () => {
 
   const handleOnSubmit = async () => {
     // event.preventDefault();
-    const formattedDate = date ? format(date, "dd/MM/yyyy") : "";
-    const { deviceId, refillCount } : any= formData;
+    const newDate = new Date();
+    const formattedDate = newDate ? format(newDate, "dd/MM/yyyy") : "";
+    const { deviceId, refillCount }: any = formData;
     try {
       const response = await postRefillStockData(
         deviceId,
@@ -50,12 +50,12 @@ const RefillStockForm = () => {
       );
       if (response.status === 201) {
         setIsSave(1);
-        setFormData({deviceId: "", refillCount: ""})
-        setDate(undefined);
+        setFormData({ deviceId: "", refillCount: "" });
+        // setDate(undefined);
       }
     } catch (error) {
       setIsSave(2);
-      setFormData(null)
+      setFormData(null);
     }
   };
 
@@ -73,11 +73,14 @@ const RefillStockForm = () => {
     <Layout>
       <div className="">
         {isSave === 1 ? (
-          <Alert className="rounded-none" color="green">Data Save Successfully</Alert>
+          <Alert className="rounded-none" color="green">
+            Data Save Successfully
+          </Alert>
         ) : isSave === 2 ? (
-          <Alert className="rounded-none" color="red">Data not saved! Something went wrong</Alert>
+          <Alert className="rounded-none" color="red">
+            Data not saved! Something went wrong
+          </Alert>
         ) : null}
-        
       </div>
       <Card color="transparent" shadow={false} className="h-full w-full">
         <CardHeader
@@ -85,23 +88,32 @@ const RefillStockForm = () => {
           shadow={false}
           className="rounded-none text-left mb-5"
         >
-          <Typography variant="h5" color="green" className="mx-2">
-            Vending Machine Stock Refill Form
-          </Typography>
-          <Typography color="blue-gray" className="mt-1 mx-2 font-normal">
-            Please enter refill details
-          </Typography>
+          <div className="md:mb-5 flex flex-wrap  justify-between gap-8 text-left">
+            <div>
+              <Typography variant="h5" color="green" className="mx-2">
+                Vending Machine Stock Refill Form
+              </Typography>
+              <Typography color="blue-gray" className="mt-1 mx-2 font-normal">
+                Please enter refill details
+              </Typography>
+            </div>
+            <div>
+              <Typography variant="h4" className="md:mx-5 mx-2">
+                {`Date: ${format(date, "dd/MM/yyyy")}`}
+              </Typography>
+            </div>
+          </div>
         </CardHeader>
         <CardBody className="border text-left">
-          <div className=" mb-2" >
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className=" mb-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="mb-1 flex-column  gap-6">
                 <Typography
                   variant="h6"
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Device ID<span style={{ color: 'red' }}>*</span>
+                  Device ID<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <input
                   name="deviceId"
@@ -119,7 +131,7 @@ const RefillStockForm = () => {
                   color="blue-gray"
                   className="mb-3  text-left"
                 >
-                  Refill Count<span style={{ color: 'red' }}>*</span>
+                  Refill Count<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <input
                   name="refillCount"
@@ -131,21 +143,21 @@ const RefillStockForm = () => {
                   placeholder="Please enter the quantity"
                 />
               </div>
-              <div className="mb-1 flex-column gap-6">
-                <Typography
+              {/* <div className="mb-1 flex-column gap-6"> */}
+              {/* <Typography
                   variant="h6"
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
                   Date<span style={{ color: 'red' }}>*</span>
-                </Typography>
-                {/* <input
+                </Typography> */}
+              {/* <input
                   className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"
                   type="date"
                   name="date"
                   max={new Date()}
                 /> */}
-                <div>
+              {/* <div>
                   <Popover placement="bottom">
                     <PopoverHandler>
                       <input
@@ -204,13 +216,17 @@ const RefillStockForm = () => {
                       />
                     </PopoverContent>
                   </Popover>
-                </div>
-              </div>
+                </div> */}
+              {/* </div> */}
             </div>
             <Button
               className="text-center md:text-left mt-6 md:mt-3 w-full md:w-auto "
               onClick={handleOnSubmit}
-              disabled={formData?.deviceId && formData.refillCount && date ? false : true}
+              disabled={
+                formData?.deviceId && formData.refillCount && date
+                  ? false
+                  : true
+              }
             >
               Submit
             </Button>

@@ -9,7 +9,7 @@ import {
 import { createAdmin, loginAdmin } from "../controller/auth.controllers";
 import { fetchDeviceData } from "../controller/deviceController";
 import { getRefillStockDetails, postDailyStock, postRefillCount } from "../controller/stock.controller";
-import { getDispensedCounts, getTotalDevices } from "../controller/dashboard.controller";
+import { getDispensedCounts, getOutOfOrderCount, getTotalDevices } from "../controller/dashboard.controller";
 
 const router = express.Router();
 
@@ -34,6 +34,6 @@ router.get("/getRefillStockDetails",getRefillStockDetails);
 
 router.get("/getTotalDevices",getTotalDevices);
 router.get("/getDispensedCounts", getDispensedCounts);
-
+router.get("/getOutOfOrderCount",getOutOfOrderCount);
 
 export { router as DeviceRouter };

@@ -30,3 +30,4 @@ router.get("/getRefillStockDetails", stock_controller_1.getRefillStockDetails);
  */
 router.get("/getTotalDevices", dashboard_controller_1.getTotalDevices);
 router.get("/getDispensedCounts", dashboard_controller_1.getDispensedCounts);
+router.get("/getOutOfOrderCount", dashboard_controller_1.getOutOfOrderCount);

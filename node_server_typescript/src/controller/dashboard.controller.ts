@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import DeviceModel from "../model/deviceSchema";
 import StockModel from "../model/stock.schema";
 import dayjs from "dayjs";
-import isoWeek from "dayjs/plugin/isoWeek";
+
 export const getTotalDevices = async (req: Request, res: Response) => {
   try {
     const response = await DeviceModel.find();
@@ -99,4 +99,21 @@ export const getDispensedCounts = async (
       error: error.message,
     });
   }
+};
+
+export const getOutOfOrderCount = async(req:Request, res:Response)=>{
+  try {
+    const outOfOrderCount = await DeviceModel.find({ available_stocks: 0 });
+    
+    return res.status(200).json({
+      message: "Data found successfully",
+      result: outOfOrderCount.length
+    })
+  } catch (error:any) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+
 };
