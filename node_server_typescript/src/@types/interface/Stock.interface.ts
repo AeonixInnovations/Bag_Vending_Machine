@@ -4,8 +4,10 @@ import { Date } from "mongoose";
 export interface StockInterface {
   device_id: string;
   date: Date;
-  todaySellCount: number;
+  todays_stock: number;
   refillCount: number;
+  refillDetails?: number[];
   currentStock: number;
-  refiller:ObjectId;
+  refiller?: ObjectId[];
+  today_sell_count: number;
 }

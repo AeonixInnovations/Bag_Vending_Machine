@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 import {
   Alert,
@@ -19,14 +19,17 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { RefillStockFormInterface } from "../../../@types/interface/refillStock/RefillStockFormInterface";
 import { format } from "date-fns";
 import { postRefillStockData } from "../../../utils/apis/Apis";
+import AuthContext from "../../../contexts/authContext/authContext";
 
 const RefillStockForm = () => {
+  const { user } = useContext(AuthContext);
   const [formData, setFormData] = useState<RefillStockFormInterface | null>({
     deviceId: "",
     refillCount: "",
   });
   const [date, setDate] = React.useState<Date>(new Date());
   const [isSave, setIsSave] = useState<Number | null>(null);
+  const [open, setOpen] = React.useState(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,11 +45,12 @@ const RefillStockForm = () => {
     const newDate = new Date();
     const formattedDate = newDate ? format(newDate, "dd/MM/yyyy") : "";
     const { deviceId, refillCount }: any = formData;
+    const refillerID = user._id;
     try {
       const response = await postRefillStockData(
         deviceId,
         parseInt(refillCount),
-        formattedDate
+        refillerID
       );
       if (response.status === 201) {
         setIsSave(1);
@@ -83,6 +87,18 @@ const RefillStockForm = () => {
         ) : null}
       </div>
       <Card color="transparent" shadow={false} className="h-full w-full">
+        <Alert
+          open={open}
+          onClose={() => setOpen(false)}
+          className="rounded-none text-left"
+          color="amber"
+        >
+          The Vending Machine Stock Refill Form must be submitted before
+          midnight.{" "}
+          <strong>
+            If not submitted by this deadline, it cannot be processed later
+          </strong>
+        </Alert>
         <CardHeader
           floated={false}
           shadow={false}

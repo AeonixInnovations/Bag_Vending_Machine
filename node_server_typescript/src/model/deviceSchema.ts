@@ -33,6 +33,9 @@ export const deviceSchema
         required: true,
         minlength: 10,
         maxlength: 10
+    },
+    marketID: {
+        type: mongoose.Schema.Types.ObjectId
     }
 },{timestamps: true}
 );

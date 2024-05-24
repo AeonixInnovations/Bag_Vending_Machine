@@ -9,11 +9,11 @@ import {
   PopoverContent,
   PopoverHandler,
   Typography,
-  Button
+  Button,
 } from "@material-tailwind/react";
 import { AddMachineFormInterface } from "../../../@types/interface/addMachine/AddMachineFormInterface";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import {  DayPicker } from "react-day-picker";
+import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
 import { postRegisterMachine } from "../../../utils/apis/Apis";
 const AddMachineForm = () => {
@@ -23,10 +23,67 @@ const AddMachineForm = () => {
     machine_contact_number: "",
   });
 
-  const [date, setDate] = React.useState<Date | undefined>();
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [isSave, setIsSave] = useState<Number | null>(null);
+  const [suggestions, setSuggestions] = useState([]);
+  const [marketName, setMarketName] = useState("");
+  const data = [
+    "apple",
+    "apricot",
+    "avocado",
+    "almond",
+    "asparagus",
+    "artichoke",
+    "arugula",
+    "acorn",
+    "banana",
+    "orange",
+    "mango",
+    "grapefruit",
+  ];
+  // const data = [
+  //   "apple",
+  // "apricot",
+  // "avocado",
+  // "almond",
+  // "asparagus",
+  // "artichoke",
+  // "arugula",
+  // "acorn",
+  //   "agave",
+  //   "anise",
+  //   "alfalfa",
+  //   "amaranth",
+  //   "anchovy",
+  //   "aprium",
+  //   "allspice",
+  //   "arrowroot",
+  //   "aubergine",
+  //   "aronia",
+  //   "asiago",
+  //   "acai"
+  // ];
 
-  
+  // Function to filter suggestions based on input value
+  const filterSuggestions = (value: any): any => {
+    if (value === "") return [];
+    const filteredData = data.filter((item) =>
+      item.toLowerCase().startsWith(value.toLowerCase())
+    );
+    return filteredData;
+  };
+
+  // Update suggestions on input change
+  const handleAutocompleteInputChange = (event: any) => {
+    setMarketName(event.target.value);
+    setSuggestions(filterSuggestions(event.target.value));
+  };
+
+  // Handle suggestion click to update input value and hide suggestions
+  const handleSuggestionClick = (suggestion: any) => {
+    setMarketName(suggestion);
+    setSuggestions([]);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -34,32 +91,36 @@ const AddMachineForm = () => {
       ...prevData,
       [name]: value,
     }));
-    console.log(name, value);
   };
 
   const handleOnSubmit = async () => {
     // event.preventDefault();
     const formattedDate = date ? format(date, "dd/MM/yyyy") : "";
-    const { deviceId, address ,  machine_contact_number,} : any= formData;
+    const { deviceId, address, machine_contact_number }: any = formData;
     try {
+      console.log(formattedDate);
       const response = await postRegisterMachine(
         deviceId,
         address,
         formattedDate,
         machine_contact_number,
+        marketName
       );
       if (response.status === 201) {
         setIsSave(1);
-        setFormData({deviceId: "", address: "", machine_contact_number: ""});
+        setFormData({ deviceId: "", address: "", machine_contact_number: "" });
+        setMarketName("");
+        setSuggestions([]);
         setDate(undefined);
       }
     } catch (error) {
       setIsSave(2);
-      setFormData(null)
-      // console.log(error)
+      setFormData({ deviceId: "", address: "", machine_contact_number: "" });
+      setMarketName("");
+      setSuggestions([]);
+      setDate(undefined);
     }
   };
-
 
   useEffect(() => {
     let timeout: any;
@@ -105,7 +166,7 @@ const AddMachineForm = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Device ID<span style={{ color: 'red' }}>*</span>
+                  Device ID<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <input
                   name="deviceId"
@@ -123,7 +184,7 @@ const AddMachineForm = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Machine Phone Number<span style={{ color: 'red' }}>*</span>
+                  Machine Phone Number<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <input
                   name="machine_contact_number"
@@ -136,93 +197,94 @@ const AddMachineForm = () => {
                   minLength={10}
                   maxLength={10}
                 />
-                
               </div>
               <div className="mb-1 flex-column gap-6">
-                  <Typography
-                    variant="h6"
-                    color="blue-gray"
-                    className="mb-3 text-left"
-                  >
-                    Date<span style={{ color: 'red' }}>*</span>
-                  </Typography>
-                  {/* <input
+                <Typography
+                  variant="h6"
+                  color="blue-gray"
+                  className="mb-3 text-left"
+                >
+                  Date<span style={{ color: "red" }}>*</span>
+                </Typography>
+                {/* <input
                   className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"
                   type="date"
                   name="date"
                   max={new Date()}
                 /> */}
-                  <div>
-                    <Popover placement="bottom">
-                      <PopoverHandler>
-                        <input
-                          onChange={() => null}
-                          value={date ? format(date, "dd/MM/yyyy") : ""}
-                          className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"
-                          placeholder="Please select date"
-                          name="date"
-                          required
-                        />
-                      </PopoverHandler>
-                      <PopoverContent>
-                        <DayPicker
-                          mode="single"
-                          selected={date}
-                          onSelect={setDate}
-                          showOutsideDays
-                          className="border-0"
-                          classNames={{
-                            caption:
-                              "flex justify-center py-2 mb-4 relative items-center",
-                            caption_label: "text-sm font-medium text-gray-900",
-                            nav: "flex items-center",
-                            nav_button:
-                              "h-6 w-6 bg-transparent hover:bg-blue-gray-50 p-1 rounded-md transition-colors duration-300",
-                            nav_button_previous: "absolute left-1.5",
-                            nav_button_next: "absolute right-1.5",
-                            table: "w-full border-collapse",
-                            head_row: "flex font-medium text-gray-900",
-                            head_cell: "m-0.5 w-9 font-normal text-sm",
-                            row: "flex w-full mt-2",
-                            cell: "text-gray-600 rounded-md h-9 w-9 text-center text-sm p-0 m-0.5 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-gray-900/20 [&:has([aria-selected].day-outside)]:text-white [&:has([aria-selected])]:bg-gray-900/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
-                            day: "h-9 w-9 p-0 font-normal",
-                            day_range_end: "day-range-end",
-                            day_selected:
-                              "rounded-md bg-gray-900 text-white hover:bg-gray-900 hover:text-white focus:bg-gray-900 focus:text-white",
-                            day_today: "rounded-md bg-gray-200 text-gray-900",
-                            day_outside:
-                              "day-outside text-gray-500 opacity-50 aria-selected:bg-gray-500 aria-selected:text-gray-900 aria-selected:bg-opacity-10",
-                            day_disabled: "text-gray-500 opacity-50",
-                            day_hidden: "invisible",
-                          }}
-                          components={{
-                            IconLeft: ({ ...props }) => (
-                              <ChevronLeftIcon
-                                {...props}
-                                className="h-4 w-4 stroke-2"
-                              />
-                            ),
-                            IconRight: ({ ...props }) => (
-                              <ChevronRightIcon
-                                {...props}
-                                className="h-4 w-4 stroke-2"
-                              />
-                            ),
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
+                <div>
+                  <Popover placement="bottom">
+                    <PopoverHandler>
+                      <input
+                        onChange={() => null}
+                        value={date ? format(date, "dd/MM/yyyy") : ""}
+                        className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"
+                        placeholder="Please select date"
+                        name="date"
+                        required
+                      />
+                    </PopoverHandler>
+                    <PopoverContent>
+                      <DayPicker
+                        month={new Date()}
+                        toDate={new Date()}
+                        mode="single"
+                        selected={date}
+                        onSelect={setDate}
+                        showOutsideDays
+                        className="border-0"
+                        classNames={{
+                          caption:
+                            "flex justify-center py-2 mb-4 relative items-center",
+                          caption_label: "text-sm font-medium text-gray-900",
+                          nav: "flex items-center",
+                          nav_button:
+                            "h-6 w-6 bg-transparent hover:bg-blue-gray-50 p-1 rounded-md transition-colors duration-300",
+                          nav_button_previous: "absolute left-1.5",
+                          nav_button_next: "absolute right-1.5",
+                          table: "w-full border-collapse",
+                          head_row: "flex font-medium text-gray-900",
+                          head_cell: "m-0.5 w-9 font-normal text-sm",
+                          row: "flex w-full mt-2",
+                          cell: "text-gray-600 rounded-md h-9 w-9 text-center text-sm p-0 m-0.5 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-gray-900/20 [&:has([aria-selected].day-outside)]:text-white [&:has([aria-selected])]:bg-gray-900/50 first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                          day: "h-9 w-9 p-0 font-normal",
+                          day_range_end: "day-range-end",
+                          day_selected:
+                            "rounded-md bg-gray-900 text-white hover:bg-gray-900 hover:text-white focus:bg-gray-900 focus:text-white",
+                          day_today: "rounded-md bg-gray-200 text-gray-900",
+                          day_outside:
+                            "day-outside text-gray-500 opacity-50 aria-selected:bg-gray-500 aria-selected:text-gray-900 aria-selected:bg-opacity-10",
+                          day_disabled: "text-gray-500 opacity-50",
+                          day_hidden: "invisible",
+                        }}
+                        components={{
+                          IconLeft: ({ ...props }) => (
+                            <ChevronLeftIcon
+                              {...props}
+                              className="h-4 w-4 stroke-2"
+                            />
+                          ),
+                          IconRight: ({ ...props }) => (
+                            <ChevronRightIcon
+                              {...props}
+                              className="h-4 w-4 stroke-2"
+                            />
+                          ),
+                        }}
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
+              </div>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-1 gap-6 mt-2" >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
               <div className="mb-1 flex-column  gap-6">
                 <Typography
                   variant="h6"
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Address<span style={{ color: 'red' }}>*</span>
+                  Address<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <input
                   name="address"
@@ -234,11 +296,54 @@ const AddMachineForm = () => {
                   placeholder="Please enter the address"
                 />
               </div>
+              <div className="mb-1 flex-column  gap-6">
+                <div className="relative">
+                  <Typography
+                    variant="h6"
+                    color="blue-gray"
+                    className="mb-3 text-left"
+                  >
+                    Market
+                  </Typography>
+                  <input
+                    name="market"
+                    type="text"
+                    value={marketName}
+                    onChange={handleAutocompleteInputChange}
+                    // required
+                    className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"
+                    placeholder="Please type the market name if applicable"
+                  />
+                  {suggestions.length > 0 && (
+                    <ul
+                      id="autocomplete-suggestions"
+                      className="absolute top-full left-0 w-full max-h-48 bg-white rounded-md shadow-md overflow-y-auto z-50"
+                    >
+                      {suggestions.map((suggestion) => (
+                        <li
+                          key={suggestion}
+                          className="p-2 cursor-pointer hover:bg-gray-100"
+                          onClick={() => handleSuggestionClick(suggestion)}
+                        >
+                          {suggestion}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
             </div>
             <Button
               className="text-center md:text-left mt-6 md:mt-3 w-full md:w-auto "
               onClick={handleOnSubmit}
-              disabled={(formData?.deviceId && formData?.address && formData?.machine_contact_number && date ? false : true) }
+              disabled={
+                formData?.deviceId &&
+                formData?.address &&
+                formData?.machine_contact_number &&
+                date
+                  ? false
+                  : true
+              }
             >
               Submit
             </Button>

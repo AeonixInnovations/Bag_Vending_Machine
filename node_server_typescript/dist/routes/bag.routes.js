@@ -10,7 +10,6 @@ const auth_controllers_1 = require("../controller/auth.controllers");
 const deviceController_2 = require("../controller/deviceController");
 const dashboard_controller_1 = require("../controller/dashboard.controller");
 const stockUpdate_controller_1 = require("../controller/stockController/stockUpdate.controller");
-const stock_controller_1 = require("../controller/stockController/stock.controller");
 const router = express_1.default.Router();
 exports.DeviceRouter = router;
 // router.get("/")
@@ -23,13 +22,15 @@ router.get("/getAllDeviceList", deviceController_1.getAllDeviceList);
 router.post("/fetchSingleDeviceData", deviceController_2.fetchDeviceData);
 router.post("/signupAdmin", auth_controllers_1.createAdmin);
 router.post("/loginAdmin", auth_controllers_1.loginAdmin);
-router.post("/postStock", stock_controller_1.postDailyStock);
-router.post("/postRefillCount", stock_controller_1.postRefillCount);
-router.get("/getRefillStockDetails", stock_controller_1.getRefillStockDetails);
+router.post("/updateStocks/:device_id", stockUpdate_controller_1.createStockForDevice);
+router.patch("/update-today-stock", stockUpdate_controller_1.updateStock);
+// router.post("/postStock",postDailyStock);
+// router.post("/postRefillCount", postRefillCount);
+// router.get("/getRefillStockDetails",getRefillStockDetails);
 /**
  * dashboard
  */
 router.get("/getTotalDevices", dashboard_controller_1.getTotalDevices);
 router.get("/getDispensedCounts", dashboard_controller_1.getDispensedCounts);
-router.get("/getOutOfOrderCount", dashboard_controller_1.getOutOfOrderCount);
-router.post("/updateStocks/:id", stockUpdate_controller_1.createStockForDevice);
+router.get("/getOutOfBagCount", dashboard_controller_1.getOutOfBagCount);
+router.get("/getTotalMarketCount", dashboard_controller_1.getTotalMarketCount);

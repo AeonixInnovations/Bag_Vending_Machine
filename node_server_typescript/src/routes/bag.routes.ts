@@ -8,8 +8,16 @@ import {
 } from "../controller/deviceController";
 import { createAdmin, loginAdmin } from "../controller/auth.controllers";
 import { fetchDeviceData } from "../controller/deviceController";
-import { getDispensedCounts, getOutOfOrderCount, getTotalDevices } from "../controller/dashboard.controller";
-import { createStockForDevice } from "../controller/stockController/stockUpdate.controller";
+import {
+  getDispensedCounts,
+  getOutOfBagCount,
+  getTotalDevices,
+  getTotalMarketCount,
+} from "../controller/dashboard.controller";
+import {
+  createStockForDevice,
+  updateStock,
+} from "../controller/stockController/stockUpdate.controller";
 
 const router = express.Router();
 
@@ -19,11 +27,12 @@ router.put("/updateAvailableStock", updateAvailableStock);
 router.put("/updateMaxStock", updateMaxStock);
 router.get("/getMaxStock/:device_id", getDeviceMaxStockById);
 router.get("/getAllDeviceList", getAllDeviceList);
-router.get("/getAllDeviceList",getAllDeviceList);
+router.get("/getAllDeviceList", getAllDeviceList);
 router.post("/fetchSingleDeviceData", fetchDeviceData);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);
 router.post("/updateStocks/:device_id", createStockForDevice);
+router.patch("/update-today-stock", updateStock);
 
 // router.post("/postStock",postDailyStock);
 // router.post("/postRefillCount", postRefillCount);
@@ -33,8 +42,9 @@ router.post("/updateStocks/:device_id", createStockForDevice);
  * dashboard
  */
 
-router.get("/getTotalDevices",getTotalDevices);
+router.get("/getTotalDevices", getTotalDevices);
 router.get("/getDispensedCounts", getDispensedCounts);
-router.get("/getOutOfOrderCount",getOutOfOrderCount);
+router.get("/getOutOfBagCount", getOutOfBagCount);
+router.get("/getTotalMarketCount", getTotalMarketCount);
 
 export { router as DeviceRouter };
