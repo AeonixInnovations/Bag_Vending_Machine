@@ -53,3 +53,11 @@ export const getRefillDetails = async (deviceId: string, startDate: string, endD
     const response = await Get(`/getRefillStockDetails?deviceId=${deviceId}&startDate=${startDate}&endDate=${endDate}`, header);
     return response;
 }
+export const getTotalSell = async ()=>{
+    const response = await Get(`/getALlStocks`, header);
+    return response;
+}
+export const getRegisterDevice = async ()=>{
+    const response = await Get(`/getAllDevices`, header);
+    return response;
+}
