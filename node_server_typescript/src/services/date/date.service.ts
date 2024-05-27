@@ -276,3 +276,33 @@ export const date = {
   formateMongoDateService,
   getCurrentMongoDBFormattedDate,
 };
+
+export const getStartOfToday = (): Date => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+  const day = String(now.getDate()).padStart(2, "0");
+  return new Date(`${year}-${month}-${day}T00:00:00`.split("T")[0]);
+};
+
+// Helper function to get the start of the month
+export const getStartOfMonth = (): Date => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+  return new Date(`${year}-${month}-01T00:00:00`.split("T")[0]);
+};
+
+export const getStartOfWeek = (): Date => {
+  const now = new Date();
+  const dayOfWeek = now.getDay(); // getDay() returns 0 for Sunday, 1 for Monday, ..., 6 for Saturday
+  const distanceToMonday = (dayOfWeek + 6) % 7; // calculate the number of days back to the last Monday
+  const monday = new Date(now);
+  monday.setDate(now.getDate() - distanceToMonday);
+  const year = monday.getFullYear();
+  const month = String(monday.getMonth() + 1).padStart(2, "0"); // Months are 0-based, so add 1
+  const day = String(monday.getDate()).padStart(2, "0");
+  return new Date(`${year}-${month}-${day}T00:00:00`.split("T")[0]);
+};
+
+// formateMongoDateService(date.toISOString().split("T")[0]);

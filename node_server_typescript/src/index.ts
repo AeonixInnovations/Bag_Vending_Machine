@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 import { json } from "body-parser";
 import { DeviceRouter } from "./routes/bag.routes";
+import { getBagDispensedCountService } from "./services/dashboard/dashboard.service";
 
 dotenv.config();
 

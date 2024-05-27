@@ -7,15 +7,20 @@ const marketSchema: Schema<MarketInterface> = new mongoose.Schema({
   marketName: {
     type: String,
     required: true,
+    unique: true,
+    trim: true,
   },
   address: {
     type: String,
+    trim: true,
   },
   lat: {
     type: String,
+    trim: true,
   },
   long: {
     type: String,
+    trim: true,
   },
   // deviceId: {
   //     type: mongoose.Schema.Types.ObjectId,

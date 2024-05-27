@@ -37,6 +37,7 @@ export const createStockForDevice = async (req: Request, res: Response) => {
 
     let newStock: any;
     let savedStock: any;
+
     if (!stockDetail) {
       newStock = new StockModel({
         device_id: device_id,
@@ -49,13 +50,14 @@ export const createStockForDevice = async (req: Request, res: Response) => {
       });
       savedStock = await newStock.save();
     } else {
+      const updatedRefillCount = stockDetail.refillCount + refillCount;
+
       const updatedRefillDetails = [
         ...(stockDetail.refillDetails || []),
         refillCount,
       ];
       const updatedRefiller = [...(stockDetail.refiller || []), refiller];
 
-      const updatedRefillCount = stockDetail.refillCount + refillCount;
       const payload = {
         todays_stock: stockDetail.todays_stock + refillCount,
         refillCount: updatedRefillCount,
@@ -97,11 +99,66 @@ export const createStockForDevice = async (req: Request, res: Response) => {
 
 export const updateStock = async (req: Request, res: Response) => {
   try {
-    const { device_id, stock } = req.body;
+    const { device_id, currentStock } = req.body;
+
+    const device = await DeviceModel.findOne({ device_id: device_id });
+    if (!device) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: MESSAGE.post.fail,
+      });
+    }
+
+    const date = new Date();
+    const today = new Date(
+      formateMongoDateService(date.toISOString().split("T")[0])
+    );
+
+    const stockDetail = await StockModel.findOne({
+      device_id: device_id,
+      date: today,
+    });
+
+    const oldStock: number = device.available_stocks;
+    let today_sell_count: number = 0;
+    let todays_stock: number = device.available_stocks;
+    const MAX_STOCK = 200;
+    let payload: any;
+    if (oldStock >= currentStock) {
+      today_sell_count = oldStock - currentStock;
+      todays_stock = oldStock;
+    } else {
+      today_sell_count = MAX_STOCK - currentStock;
+    }
+
+    if (!stockDetail) {
+      payload = {
+        device_id,
+        currentStock,
+        today_sell_count,
+        todays_stock,
+        date: today,
+      };
+    } else {
+      payload = {
+        currentStock,
+        today_sell_count,
+      };
+    }
+
     const updateInstance = await StockModel.findOneAndUpdate(
       { date: getCurrentMongoDBFormattedDate(), device_id },
-      { $set: { currentStock: stock } }
+      {
+        $set: {
+          payload,
+        },
+      }
     );
+
+    const deviceResponse = await DeviceModel.findOneAndUpdate(
+      { device_id: device_id },
+      { $set: { available_stocks: currentStock } }
+    );
+
     return res.status(200).json({
       message: MESSAGE.patch.succ,
       result: updateInstance,
