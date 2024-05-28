@@ -1,9 +1,11 @@
+import DeviceModel from "../../model/deviceSchema";
 import StockModel from "../../model/stock.schema";
 import {
   formateMongoDateService,
   getStartOfMonth,
   getStartOfToday,
   getStartOfWeek,
+  getYesterdayDate,
 } from "../date/date.service";
 
 // total bag, monthly, weekly, today - dispensed
@@ -84,4 +86,66 @@ export const getBagDispensedCountService = async () => {
   }
 };
 
-//
+//total device, out of stock
+export const getDeviceCountService = async () => {
+  try {
+    const results = await DeviceModel.aggregate([
+      {
+        $facet: {
+          totalDevices: [{ $count: "total" }],
+          outOfStockDevices: [
+            { $match: { available_stocks: 0 } },
+            { $count: "outOfStock" },
+          ],
+        },
+      },
+    ]);
+
+    // Extract the counts from the results
+    const totalDevices = results[0].totalDevices[0]?.total || 0;
+    const outOfStockDevices = results[0].outOfStockDevices[0]?.outOfStock || 0;
+
+    return { totalDevices, outOfStockDevices };
+  } catch (error) {
+    console.error("Error getting device counts:", error);
+    throw error;
+  }
+};
+
+//Out of order
+export const getOutOfOrderCount = async () => {
+  try {
+    const date = new Date();
+    const today = new Date(
+      formateMongoDateService(date.toISOString().split("T")[0])
+    );
+    const yesterday = getYesterdayDate();
+    const result = await StockModel.find({ date: yesterday });
+    if (!result) {
+      const pipeline = [
+        // Match documents for yesterday's date
+        {
+          $match: {
+            date: yesterday,
+          },
+        },
+        // Group by device_id to count unique devices
+        {
+          $group: {
+            _id: "$device_id",
+          },
+        },
+        // Count the number of unique devices
+        {
+          $count: "outOfOrderDeviceCount",
+        },
+      ];
+
+      const result = await StockModel.aggregate(pipeline);
+    }
+  } catch (error) {
+    throw error;
+  }
+};
+
+//total market

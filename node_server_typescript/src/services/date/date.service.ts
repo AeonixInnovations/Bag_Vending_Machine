@@ -306,3 +306,10 @@ export const getStartOfWeek = (): Date => {
 };
 
 // formateMongoDateService(date.toISOString().split("T")[0]);
+
+export const getYesterdayDate = (): Date => {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(today.getDate() - 1);
+  return new Date(yesterday.toISOString().split("T")[0]);
+};

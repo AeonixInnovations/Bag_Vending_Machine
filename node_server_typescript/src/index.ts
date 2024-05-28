@@ -5,6 +5,7 @@ import cors from "cors";
 import { json } from "body-parser";
 import { DeviceRouter } from "./routes/bag.routes";
 import { getBagDispensedCountService } from "./services/dashboard/dashboard.service";
+import { getYesterdayDate } from "./services/date/date.service";
 
 dotenv.config();
 
@@ -32,3 +33,4 @@ mongoose
 app.listen(port, () => {
   console.log(`App is running at http://localhost:${port}`);
 });
+console.log(getYesterdayDate());
