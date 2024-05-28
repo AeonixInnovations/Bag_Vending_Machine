@@ -97,76 +97,192 @@ export const createStockForDevice = async (req: Request, res: Response) => {
   }
 };
 
-export const updateStock = async (req: Request, res: Response) => {
-  try {
-    const { device_id, currentStock } = req.body;
+// export const updateStock = async (req: Request, res: Response) => {
+//   try {
+//     const { device_id, currentStock } = req.body;
 
-    const device = await DeviceModel.findOne({ device_id: device_id });
-    if (!device) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        message: MESSAGE.post.fail,
+//     const device = await DeviceModel.findOne({ device_id: device_id });
+//     if (!device) {
+//       return res.status(StatusCodes.NOT_FOUND).json({
+//         message: MESSAGE.post.fail,
+//       });
+//     }
+
+//     const date = new Date();
+//     const today = new Date(
+//       formateMongoDateService(date.toISOString().split("T")[0])
+//     );
+
+//     const stockDetail = await StockModel.findOne({
+//       device_id: device_id,
+//       date: today,
+//     });
+
+//     const oldStock: number = device.available_stocks;
+//     let today_sell_count: number = 0;
+//     let todays_stock: number = device.available_stocks;
+//     const MAX_STOCK = 200;
+//     let payload: any;
+//     if (oldStock >= currentStock) {
+//       today_sell_count = oldStock - currentStock;
+//       todays_stock = oldStock;
+//     } else {
+//       today_sell_count = MAX_STOCK - currentStock;
+//     }
+
+//     if (!stockDetail) {
+//       payload = {
+//         device_id,
+//         currentStock,
+//         today_sell_count,
+//         todays_stock,
+//         date: today,
+//       };
+//     } else {
+//       payload = {
+//         currentStock,
+//         today_sell_count,
+//       };
+//     }
+
+//     const updateInstance = await StockModel.findOneAndUpdate(
+//       { date: getCurrentMongoDBFormattedDate(), device_id },
+//       {
+//         $set: {
+//           payload,
+//         },
+//       }
+//     );
+
+//     const deviceResponse = await DeviceModel.findOneAndUpdate(
+//       { device_id: device_id },
+//       { $set: { available_stocks: currentStock } }
+//     );
+
+//     return res.status(200).json({
+//       message: MESSAGE.patch.succ,
+//       result: updateInstance,
+//     });
+//   } catch (error) {
+//     return res.status(400).json({
+//       message: MESSAGE.patch.fail,
+//       error,
+//     });
+//   }
+// };
+
+export const updateStockForDevice = async (req: Request, res: Response) => {
+  try {
+    const { device_id } = req.params;
+    const { currentStock } = req.body;
+
+    if (typeof currentStock !== "number") {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: MESSAGE.patch.fail,
       });
     }
 
-    const date = new Date();
-    const today = new Date(
-      formateMongoDateService(date.toISOString().split("T")[0])
-    );
+    // Find the device
+    const device = await DeviceModel.findOne({ device_id });
+    if (!device) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: MESSAGE.patch.fail,
+      });
+    }
 
-    const stockDetail = await StockModel.findOne({
+    // Get today's date without the time part
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    // Find the stock entry for today
+    console.log(device_id);
+    const stock = await StockModel.findOne({
       device_id: device_id,
-      date: today,
+      date: formateMongoDateService(String(today)),
     });
 
-    const oldStock: number = device.available_stocks;
-    let today_sell_count: number = 0;
-    let todays_stock: number = device.available_stocks;
-    const MAX_STOCK = 200;
-    let payload: any;
-    if (oldStock >= currentStock) {
-      today_sell_count = oldStock - currentStock;
-      todays_stock = oldStock;
-    } else {
-      today_sell_count = MAX_STOCK - currentStock;
+    console.log("=====>date", getCurrentMongoDBFormattedDate());
+    if (!stock) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: MESSAGE.patch.fail,
+        error: "Stock for today not found.",
+      });
     }
 
-    if (!stockDetail) {
-      payload = {
-        device_id,
-        currentStock,
-        today_sell_count,
-        todays_stock,
-        date: today,
-      };
-    } else {
-      payload = {
-        currentStock,
-        today_sell_count,
-      };
-    }
+    stock.currentStock = currentStock;
+    const updatedStock = await stock.save();
 
-    const updateInstance = await StockModel.findOneAndUpdate(
-      { date: getCurrentMongoDBFormattedDate(), device_id },
-      {
-        $set: {
-          payload,
-        },
-      }
-    );
+    device.available_stocks = currentStock;
+    await device.save();
 
-    const deviceResponse = await DeviceModel.findOneAndUpdate(
-      { device_id: device_id },
-      { $set: { available_stocks: currentStock } }
-    );
-
-    return res.status(200).json({
+    return res.status(StatusCodes.OK).json({
       message: MESSAGE.patch.succ,
-      result: updateInstance,
+      stock: updatedStock,
+      device: device,
     });
-  } catch (error) {
-    return res.status(400).json({
+  } catch (error: any) {
+    console.error("Error updating stock for device:", error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
       message: MESSAGE.patch.fail,
-      error,
+      error: error.message,
     });
   }
 };
+
+// export const updateStockForDevice = async (req: Request, res: Response) => {
+//   try {
+//     const { device_id } = req.params;
+//     const { currentStock } = req.body;
+
+//     if (typeof currentStock !== "number") {
+//       return res.status(StatusCodes.BAD_REQUEST).json({
+//         message: MESSAGE.patch.fail,
+//       });
+//     }
+
+//     // Find the device
+//     const device = await DeviceModel.findOne({ device_id });
+//     if (!device) {
+//       return res.status(StatusCodes.NOT_FOUND).json({
+//         message: MESSAGE.patch.fail,
+//       });
+//     }
+
+//     // Get today's date without the time part
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0);
+
+//     // Find the stock entry for today
+//     console.log(device_id);
+//     const stock = await StockModel.findOne({
+//       device_id: device_id,
+//       date: formateMongoDateService(String(today)),
+//     });
+
+//     console.log("=====>date", getCurrentMongoDBFormattedDate());
+//     if (!stock) {
+//       return res.status(StatusCodes.NOT_FOUND).json({
+//         message: MESSAGE.patch.fail,
+//         error: "Stock for today not found.",
+//       });
+//     }
+
+//     stock.currentStock = currentStock;
+//     const updatedStock = await stock.save();
+
+//     device.available_stocks = currentStock;
+//     await device.save();
+
+//     return res.status(StatusCodes.OK).json({
+//       message: MESSAGE.patch.succ,
+//       stock: updatedStock,
+//       device: device,
+//     });
+//   } catch (error: any) {
+//     console.error("Error updating stock for device:", error);
+//     return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+//       message: MESSAGE.patch.fail,
+//       error: error.message,
+//     });
+//   }
+// };

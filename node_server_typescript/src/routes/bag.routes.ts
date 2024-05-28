@@ -10,14 +10,20 @@ import { createAdmin, loginAdmin } from "../controller/auth.controllers";
 import { fetchDeviceData } from "../controller/deviceController";
 import {
   getDispensedCounts,
-  getOutOfBagCount,
+  getOutOfOrderCount,
   getTotalDevices,
   getTotalMarketCount,
 } from "../controller/dashboard.controller";
 import {
   createStockForDevice,
-  updateStock,
+  updateStockForDevice,
 } from "../controller/stockController/stockUpdate.controller";
+import {
+  getDevicesCreatedMonthly,
+  getMonthlySales,
+} from "../controller/graph/graph.comtrollers";
+import { getSalesData } from "../controller/TotalSells/TotalSells";
+import { getDeviceData } from "../controller/deviceSales/deviceSales";
 
 const router = express.Router();
 
@@ -32,7 +38,8 @@ router.post("/fetchSingleDeviceData", fetchDeviceData);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);
 router.post("/updateStocks/:device_id", createStockForDevice);
-router.patch("/update-today-stock", updateStock);
+router.patch("/updateStocks_bymachine/:device_id", updateStockForDevice);
+
 // router.post("/postStock",postDailyStock);
 // router.post("/postRefillCount", postRefillCount);
 // router.get("/getRefillStockDetails",getRefillStockDetails);
@@ -43,7 +50,11 @@ router.patch("/update-today-stock", updateStock);
 
 router.get("/getTotalDevices", getTotalDevices);
 router.get("/getDispensedCounts", getDispensedCounts);
-router.get("/getOutOfBagCount", getOutOfBagCount);
-router.get("/getTotalMarketCount", getTotalMarketCount);
+router.get("/getOutOfOrderCount", getOutOfOrderCount);
 
+router.get("/getALlStocks", getMonthlySales);
+router.get("/getAllDevices", getDevicesCreatedMonthly);
+router.get("/getSales", getSalesData);
+router.get("/getDevices", getDeviceData);
+router.get("/getTotalMarket", getTotalMarketCount);
 export { router as DeviceRouter };

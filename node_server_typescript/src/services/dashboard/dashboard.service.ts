@@ -113,39 +113,40 @@ export const getDeviceCountService = async () => {
 };
 
 //Out of order
-export const getOutOfOrderCount = async () => {
-  try {
-    const date = new Date();
-    const today = new Date(
-      formateMongoDateService(date.toISOString().split("T")[0])
-    );
-    const yesterday = getYesterdayDate();
-    const result = await StockModel.find({ date: yesterday });
-    if (!result) {
-      const pipeline = [
-        // Match documents for yesterday's date
-        {
-          $match: {
-            date: yesterday,
-          },
-        },
-        // Group by device_id to count unique devices
-        {
-          $group: {
-            _id: "$device_id",
-          },
-        },
-        // Count the number of unique devices
-        {
-          $count: "outOfOrderDeviceCount",
-        },
-      ];
 
-      const result = await StockModel.aggregate(pipeline);
-    }
-  } catch (error) {
-    throw error;
-  }
-};
+// export const getOutOfOrderCount = async () => {
+//   try {
+//     const date = new Date();
+//     const today = new Date(
+//       formateMongoDateService(date.toISOString().split("T")[0])
+//     );
+//     const yesterday = getYesterdayDate();
+//     const result = await StockModel.find({ date: yesterday });
+//     if (!result) {
+//       const pipeline = [
+//         // Match documents for yesterday's date
+//         {
+//           $match: {
+//             date: yesterday,
+//           },
+//         },
+//         // Group by device_id to count unique devices
+//         {
+//           $group: {
+//             _id: "$device_id",
+//           },
+//         },
+//         // Count the number of unique devices
+//         {
+//           $count: "outOfOrderDeviceCount",
+//         },
+//       ];
+
+//       const result = await StockModel.aggregate(pipeline);
+//     }
+//   } catch (error) {
+//     throw error;
+//   }
+// };
 
 //total market

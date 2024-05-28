@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Card,
   CardBody,
@@ -5,103 +7,94 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import { ChartBarIcon, Square3Stack3DIcon } from "@heroicons/react/24/outline";
+import { ChartBarIcon } from "@heroicons/react/24/outline";
+import { getRegisterDevice } from "../../../utils/apis/Apis";
 
-// If you're using Next.js please use the dynamic import for react-apexcharts and remove the import from the top for the react-apexcharts
-// import dynamic from "next/dynamic";
-// const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
-
-const chartConfig: any = {
-  type: "bar",
-  height: 240,
-  series: [
-    {
-      name: "Sales",
-      data: [50, 40, 300, 320, 500, 350, 200, 230, 500],
-    },
-  ],
-  options: {
-    chart: {
-      toolbar: {
-        show: false,
+const MonthlySalesBarChart = () => {
+  const [chartData, setChartData] = useState<any>({
+    type: "bar",
+  height: 290,
+    series: [{ name: "Sales", data: [] }],
+    options: {
+      chart: {
+        toolbar: { show: false },
       },
-    },
-    title: {
-      show: "",
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    colors: ["#020617"],
-    plotOptions: {
-      bar: {
-        columnWidth: "40%",
-        borderRadius: 2,
-      },
-    },
-    xaxis: {
-      axisTicks: {
-        show: false,
-      },
-      axisBorder: {
-        show: false,
-      },
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
+      title: { show: "" },
+      dataLabels: { enabled: false },
+      colors: ["#020617"],
+      plotOptions: {
+        bar: {
+          columnWidth: "40%",
+          borderRadius: 2,
         },
       },
-      categories: [
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "#616161",
-          fontSize: "12px",
-          fontFamily: "inherit",
-          fontWeight: 400,
-        },
-      },
-    },
-    grid: {
-      show: true,
-      borderColor: "#dddddd",
-      strokeDashArray: 5,
       xaxis: {
-        lines: {
-          show: true,
+        axisTicks: { show: false },
+        axisBorder: { show: false },
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
+        },
+        categories: [],
+      },
+      yaxis: {
+        labels: {
+          style: {
+            colors: "#616161",
+            fontSize: "12px",
+            fontFamily: "inherit",
+            fontWeight: 400,
+          },
         },
       },
-      padding: {
-        top: 5,
-        right: 20,
+      grid: {
+        show: true,
+        borderColor: "#dddddd",
+        strokeDashArray: 5,
+        xaxis: {
+          lines: { show: true },
+        },
+        padding: { top: 5, right: 20 },
       },
+      fill: { opacity: 0.8 },
+      tooltip: { theme: "dark" },
     },
-    fill: {
-      opacity: 0.8,
-    },
-    tooltip: {
-      theme: "dark",
-    },
-  },
-};
+  });
 
-export default function BarChart() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response:any = await getRegisterDevice();
+        const salesData = response.data;
+
+        const categories = salesData.map((data: any) => `${data.month}-${data.year}`);
+        const sales = salesData.map((data: any) => data.totalDevices);
+
+        setChartData((prevState:any) => ({
+          ...prevState,
+          series: [{ name: "Sales", data: sales }],
+          options: {
+            ...prevState.options,
+            xaxis: {
+              ...prevState.options.xaxis,
+              categories,
+            },
+          },
+        }));
+      } catch (error) {
+        console.error("Error fetching sales data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <Card className="w-1/2">
+    <Card className="w-full md:w-1/2 mx-auto mb-10">
       <CardHeader
         floated={false}
         shadow={false}
@@ -113,13 +106,15 @@ export default function BarChart() {
         </div>
         <div>
           <Typography variant="h6" color="blue-gray">
-            Bar Chart
+            Monthly Sales Chart
           </Typography>
         </div>
       </CardHeader>
       <CardBody className="px-2 pb-0">
-        <Chart {...chartConfig} />
+        <Chart {...chartData} />
       </CardBody>
     </Card>
   );
-}
+};
+
+export default MonthlySalesBarChart;

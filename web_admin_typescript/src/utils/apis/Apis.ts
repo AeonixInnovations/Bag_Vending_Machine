@@ -78,3 +78,23 @@ export const getRefillDetails = async (
   );
   return response;
 };
+export const getTotalSell = async () => {
+  const response = await Get(`/getALlStocks`, header);
+  return response;
+};
+export const getRegisterDevice = async () => {
+  const response = await Get(`/getAllDevices`, header);
+  return response;
+};
+export const getSellDetails = async () => {
+  const response = await Get(`/getSales`, header);
+  return response;
+};
+export const getDeviceDetails = async () => {
+  const response = await Get(`/getDevices`, header);
+  return response;
+};
+export const getTotalMarket = async () => {
+  const response = await Get(`/getTotalMarket`, header);
+  return response;
+};
