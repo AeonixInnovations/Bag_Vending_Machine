@@ -16,6 +16,7 @@ import {
 } from "../controller/dashboard.controller";
 import {
   createStockForDevice,
+  getRefillStockDetails,
   updateStockForDevice,
 } from "../controller/stockController/stockUpdate.controller";
 import {
@@ -37,6 +38,7 @@ router.get("/getAllDeviceList", getAllDeviceList);
 router.post("/fetchSingleDeviceData", fetchDeviceData);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);
+router.get("/getRefillDetails", getRefillStockDetails);
 router.post("/updateStocks/:device_id", createStockForDevice);
 router.put("/updateStocks_bymachine/:device_id", updateStockForDevice);
 

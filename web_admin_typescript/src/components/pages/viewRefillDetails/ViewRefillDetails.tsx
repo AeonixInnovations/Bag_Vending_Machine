@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 import {
   Card,
@@ -9,19 +9,19 @@ import {
   PopoverHandler,
   Typography,
   Button,
-  CardFooter
 } from "@material-tailwind/react";
-import {  DayPicker } from "react-day-picker";
+import { DayPicker } from "react-day-picker";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
-import {  RefillStockSearchFormInterface } from "../../../@types/interface/refillStock/RefillStockSearchFormInterface";
+import { RefillStockSearchFormInterface } from "../../../@types/interface/refillStock/RefillStockSearchFormInterface";
 import { format } from "date-fns";
 import RefillDetailsTable from "../../refillDetailsTable/RefillDetailsTable";
 import { getRefillDetails } from "../../../utils/apis/Apis";
 
 const ViewRefillDetails = () => {
-  const [formData, setFormData] = useState<RefillStockSearchFormInterface | null>({
-    deviceId: "",
-  });
+  const [formData, setFormData] =
+    useState<RefillStockSearchFormInterface | null>({
+      deviceId: "",
+    });
   const [startDate, setStartDate] = React.useState<Date>();
   const [endDate, setEndDate] = React.useState<Date>();
 
@@ -39,18 +39,18 @@ const ViewRefillDetails = () => {
   const handleOnSearch = async () => {
     const formattedStartDate = startDate ? format(startDate, "dd/MM/yyyy") : "";
     const formattedEndDate = endDate ? format(endDate, "dd/MM/yyyy") : "";
-    const {deviceId}:any = formData;
-    try {
-        const response = await getRefillDetails(deviceId, formattedStartDate, formattedEndDate);
-        if(response===undefined)
-          setRefillDetails(undefined);  
-        else
-          setRefillDetails(response?.data.result);
-    } catch (error) {
-        
-    }
-  };
+    const { deviceId }: any = formData;
 
+    try {
+      let response = await getRefillDetails(
+        deviceId,
+        formattedStartDate,
+        formattedEndDate
+      );
+      setRefillDetails([]);
+      if (response !== undefined) setRefillDetails(response?.data.result);
+    } catch (error) {}
+  };
   return (
     <Layout>
       {/* <div className="">
@@ -67,7 +67,7 @@ const ViewRefillDetails = () => {
           shadow={false}
           className="rounded-none text-left mb-5"
         >
-          <Typography variant="h5" color="indigo" className="mx-2">
+          <Typography variant="h5" color="green" className="mx-2">
             Vending Machine Stock Refill Details
           </Typography>
           <Typography color="blue-gray" className="mt-1 mx-2 font-normal">
@@ -83,7 +83,7 @@ const ViewRefillDetails = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Device ID<span style={{ color: 'red' }}>*</span>
+                  Device ID<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <input
                   name="deviceId"
@@ -101,7 +101,7 @@ const ViewRefillDetails = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  Start Date<span style={{ color: 'red' }}>*</span>
+                  Start Date<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <div>
                   <Popover placement="bottom">
@@ -170,7 +170,7 @@ const ViewRefillDetails = () => {
                   color="blue-gray"
                   className="mb-3 text-left"
                 >
-                  End Date<span style={{ color: 'red' }}>*</span>
+                  End Date<span style={{ color: "red" }}>*</span>
                 </Typography>
                 <div>
                   <Popover placement="bottom">
@@ -245,13 +245,14 @@ const ViewRefillDetails = () => {
             </Button>
           </div>
         </CardBody>
-        
-              {refillDetails!==undefined ?<RefillDetailsTable refillDetails={refillDetails}/>:   <Typography
-                  variant="h4"
-                  className="mx-7 my-2 text-left"
-                >
-                  No data found
-                </Typography>}
+
+        {refillDetails.length > 0 ? (
+          <RefillDetailsTable refillDetails={refillDetails} />
+        ) : (
+          <Typography variant="h4" className="mx-7 my-2 text-left">
+            No data found
+          </Typography>
+        )}
       </Card>
     </Layout>
   );

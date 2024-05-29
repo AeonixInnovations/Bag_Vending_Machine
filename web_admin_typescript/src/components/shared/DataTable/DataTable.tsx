@@ -1,4 +1,7 @@
-import { ChevronDownIcon, ChevronUpDownIcon } from "@heroicons/react/24/outline";
+import {
+  ChevronDownIcon,
+  ChevronUpDownIcon,
+} from "@heroicons/react/24/outline";
 import { CalendarIcon, ArrowPathIcon } from "@heroicons/react/24/solid";
 import {
   Card,
@@ -37,7 +40,7 @@ const DataTable = ({
   totalPages,
   handlePrevious,
   handleNext,
-  handleSelect
+  handleSelect,
 }: DeviceListPropsInterface) => {
   const navigate = useNavigate();
   // const getTime = (date: Date) => {
@@ -66,7 +69,7 @@ const DataTable = ({
         setDeviceList((prevState) => {
           return prevState.map((device) => {
             if (device.device_id === device_id) {
-              return  { ...device, ...updatedDevice };
+              return { ...device, ...updatedDevice };
             }
             return device;
           });
@@ -85,7 +88,7 @@ const DataTable = ({
         <CardHeader floated={false} shadow={false} className="rounded-none">
           <div className="md:mb-5 flex flex-wrap items-center justify-between gap-8 text-left">
             <div>
-              <Typography variant="h5" color="indigo" className="mx-2">
+              <Typography variant="h5" color="green" className="mx-2">
                 All Vending Machine List
               </Typography>
               <Typography color="blue-gray" className="mt-1 mx-2 font-normal">
@@ -106,7 +109,7 @@ const DataTable = ({
                 variant="filled"
                 className="border-blue-500  inline-flex items-center"
                 size="sm"
-                onClick={() => navigate('/refill-details')}
+                onClick={() => navigate("/refill-details")}
               >
                 {/* <ArrowPathIcon /> */}
                 Check Refill Count
@@ -129,25 +132,22 @@ const DataTable = ({
                     </div> */}
         </CardHeader>
         <CardBody className="overflow-scroll px-0">
-          <Menu >
+          <Menu>
             <MenuHandler>
-            <Button
-          variant="outlined"
-          size="sm"
-          className="flex items-center gap-2 text-base font-normal capitalize tracking-normal mx-2"
-        >
-          Item per page
-          <ChevronDownIcon
-            strokeWidth={2.5}
-            className={`h-3 w-3 `}
-          />
-        </Button>
+              <Button
+                variant="outlined"
+                size="sm"
+                className="flex items-center gap-2 text-base font-normal capitalize tracking-normal mx-2"
+              >
+                Item per page
+                <ChevronDownIcon strokeWidth={2.5} className={`h-3 w-3 `} />
+              </Button>
             </MenuHandler>
             <MenuList>
-            <MenuItem onClick={() => handleSelect(10)}>10</MenuItem>
-        <MenuItem onClick={() => handleSelect(25)}>25</MenuItem>
-        <MenuItem onClick={() => handleSelect(50)}>50</MenuItem>
-        <MenuItem onClick={() => handleSelect(100)}>100</MenuItem>
+              <MenuItem onClick={() => handleSelect(10)}>10</MenuItem>
+              <MenuItem onClick={() => handleSelect(25)}>25</MenuItem>
+              <MenuItem onClick={() => handleSelect(50)}>50</MenuItem>
+              <MenuItem onClick={() => handleSelect(100)}>100</MenuItem>
             </MenuList>
           </Menu>
           <table className="mt-4 w-full min-w-max table-auto text-left">

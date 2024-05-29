@@ -313,3 +313,17 @@ export const getYesterdayDate = (): Date => {
   yesterday.setDate(today.getDate() - 1);
   return new Date(yesterday.toISOString().split("T")[0]);
 };
+
+export const formatDateFromDDMMYYYY = (date: string): string => {
+  const splitDate = date.split("/");
+  const year = splitDate[2];
+  let month = splitDate[1];
+  let day = splitDate[0];
+
+  if (Number(month) < 10 && !month.startsWith("0")) month = "0" + month;
+
+  if (Number(day) < 10 && !day.startsWith("0")) day = "0" + day;
+
+  const revisedDate = year + "-" + month + "-" + day;
+  return revisedDate;
+};

@@ -4,6 +4,7 @@ import { MESSAGE } from "../../constants/message";
 import DeviceModel from "../../model/deviceSchema";
 import StockModel from "../../model/stock.schema";
 import {
+  formatDateFromDDMMYYYY,
   formateMongoDateService,
   getCurrentMongoDBFormattedDate,
 } from "../../services/date/date.service";
@@ -355,3 +356,49 @@ export const updateStockForDevice = async (req: Request, res: Response) => {
 //     });
 //   }
 // };
+
+export const getRefillStockDetails = async (req: Request, res: Response) => {
+  const { deviceId, startDate, endDate }: any = req.query;
+  const formattedStartDate = formatDateFromDDMMYYYY(startDate);
+  const formattedEndDate = formatDateFromDDMMYYYY(endDate);
+  console.log(formattedStartDate, formattedEndDate);
+  if (!deviceId || !startDate || !endDate) {
+    return res
+      .status(400)
+      .json({ message: "Missing required query parameters" });
+  }
+
+  const parsedStartDate = new Date(formattedStartDate);
+  const parsedEndDate = new Date(formattedEndDate).setHours(23, 59, 59, 999);
+  console.log(
+    "startDate : " + parsedStartDate + "   endDate : " + parsedEndDate
+  );
+  try {
+    const stockDetails = await StockModel.find({
+      device_id: deviceId,
+      date: {
+        $gte: parsedStartDate,
+        $lte: parsedEndDate,
+      },
+      refillCount: { $ne: 0 },
+    });
+
+    if (!stockDetails || stockDetails.length === 0) {
+      return res.status(404).json({
+        message:
+          "No stock details found for this device in the specified date range",
+      });
+    }
+
+    res.status(200).json({
+      message: "Refill Stock details found successfully",
+      length: stockDetails.length,
+      result: stockDetails,
+    });
+  } catch (error: any) {
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
+  }
+};

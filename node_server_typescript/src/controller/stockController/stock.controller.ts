@@ -6,7 +6,6 @@
 // import DeviceModel from "../../model/deviceSchema";
 // dayjs.extend(customParseFormat);
 
-
 // const calculateSellCount = (
 //   available_stock: number,
 //   refillCount: number,
@@ -224,12 +223,10 @@
 //     });
 
 //     if (!stockDetails || stockDetails.length === 0) {
-//       return res
-//         .status(404)
-//         .json({
-//           message:
-//             "No stock details found for this device in the specified date range",
-//         });
+//       return res.status(404).json({
+//         message:
+//           "No stock details found for this device in the specified date range",
+//       });
 //     }
 
 //     res.status(200).json({

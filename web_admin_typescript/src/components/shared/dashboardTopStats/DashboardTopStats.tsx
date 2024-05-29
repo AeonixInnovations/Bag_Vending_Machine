@@ -49,12 +49,12 @@ const DashboardTopStats = () => {
       },
       {
         title: "Machines Working",
-        count: devices?.totalDevices - devices?.devicesWithZeroStocks || "NA",
+        count: devices?.workingDeviceCount || "NA",
         icon: TruckIcon,
       },
       {
         title: "Machines Out of Order",
-        count: devices?.devicesWithZeroStocks || "NA",
+        count: devices?.outOfOrderDeviceCount || "NA",
         icon: TruckIcon,
       },
       {

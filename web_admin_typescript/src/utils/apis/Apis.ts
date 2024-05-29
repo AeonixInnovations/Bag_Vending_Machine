@@ -73,7 +73,7 @@ export const getRefillDetails = async (
   endDate: string
 ) => {
   const response = await Get(
-    `/getRefillStockDetails?deviceId=${deviceId}&startDate=${startDate}&endDate=${endDate}`,
+    `/getRefillDetails?deviceId=${deviceId}&startDate=${startDate}&endDate=${endDate}`,
     header
   );
   return response;

@@ -48,8 +48,8 @@ const SideBar = () => {
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
               </ListItemPrefix>
-              Update
-              <ListItemSuffix>
+              Vending Machine List
+              {/* <ListItemSuffix>
                 <Chip
                   value="14"
                   size="sm"
@@ -57,7 +57,7 @@ const SideBar = () => {
                   color="blue-gray"
                   className="rounded-full"
                 />
-              </ListItemSuffix>
+              </ListItemSuffix> */}
             </ListItem>
           </Link>
           <Link to="/refill-stock">
@@ -88,8 +88,6 @@ const SideBar = () => {
             </ListItemPrefix>
             Feedback
           </ListItem>
-          
-          
         </List>
       </div>
     </>
