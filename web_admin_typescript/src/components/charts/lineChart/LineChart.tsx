@@ -7,12 +7,16 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
-import { ChartBarIcon, PresentationChartLineIcon } from "@heroicons/react/24/outline";
+import {
+  ChartBarIcon,
+  PresentationChartLineIcon,
+} from "@heroicons/react/24/outline";
 import { getTotalSell } from "../../../utils/apis/Apis";
 
 const MonthlySalesBarChart = () => {
   const [chartData, setChartData] = useState<any>({
-  height: 290,
+    type: "bar",
+    height: 290,
     series: [{ name: "Sales", data: [] }],
     options: {
       chart: {
@@ -67,13 +71,15 @@ const MonthlySalesBarChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response:any = await getTotalSell();
+        const response: any = await getTotalSell();
         const salesData = response.data;
 
-        const categories = salesData.map((data: any) => `${data.month}-${data.year}`);
+        const categories = salesData.map(
+          (data: any) => `${data.month}-${data.year}`
+        );
         const sales = salesData.map((data: any) => data.totalSales);
 
-        setChartData((prevState:any) => ({
+        setChartData((prevState: any) => ({
           ...prevState,
           series: [{ name: "Sales", data: sales }],
           options: {

@@ -38,7 +38,7 @@ router.post("/fetchSingleDeviceData", fetchDeviceData);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);
 router.post("/updateStocks/:device_id", createStockForDevice);
-router.patch("/updateStocks_bymachine/:device_id", updateStockForDevice);
+router.put("/updateStocks_bymachine/:device_id", updateStockForDevice);
 
 // router.post("/postStock",postDailyStock);
 // router.post("/postRefillCount", postRefillCount);

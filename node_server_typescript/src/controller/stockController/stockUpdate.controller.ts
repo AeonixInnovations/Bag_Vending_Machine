@@ -25,6 +25,7 @@ export const createStockForDevice = async (req: Request, res: Response) => {
         message: MESSAGE.post.fail,
       });
     }
+
     const date = new Date();
     const today = new Date(
       formateMongoDateService(date.toISOString().split("T")[0])
@@ -39,6 +40,7 @@ export const createStockForDevice = async (req: Request, res: Response) => {
     let savedStock: any;
 
     if (!stockDetail) {
+      //if document not found
       newStock = new StockModel({
         device_id: device_id,
         date: today,
@@ -49,7 +51,10 @@ export const createStockForDevice = async (req: Request, res: Response) => {
         refillDetails: [refillCount],
       });
       savedStock = await newStock.save();
+      device.available_stocks = device.available_stocks + refillCount;
+      await device.save();
     } else {
+      //if document found
       const updatedRefillCount = stockDetail.refillCount + refillCount;
 
       const updatedRefillDetails = [
@@ -58,16 +63,37 @@ export const createStockForDevice = async (req: Request, res: Response) => {
       ];
       const updatedRefiller = [...(stockDetail.refiller || []), refiller];
 
-      const payload = {
+      let payload: any;
+      payload = {
         todays_stock: stockDetail.todays_stock + refillCount,
         refillCount: updatedRefillCount,
         currentStock: device.available_stocks + refillCount,
         refiller: updatedRefiller,
         refillDetails: updatedRefillDetails,
       };
+
+      if (
+        stockDetail.todays_stock - stockDetail.today_sell_count <
+        stockDetail.currentStock
+      ) {
+        payload = {
+          todays_stock: stockDetail.todays_stock + refillCount,
+          refillCount: updatedRefillCount,
+          currentStock: device.available_stocks,
+          refiller: updatedRefiller,
+          refillDetails: updatedRefillDetails,
+          today_sell_count:
+            stockDetail.today_sell_count +
+            (refillCount - stockDetail.currentStock),
+        };
+      } else {
+        device.available_stocks = device.available_stocks + refillCount;
+        await device.save();
+      }
+      console.log(payload);
       savedStock = await StockModel.findOneAndUpdate(
         { device_id, date: today },
-        payload,
+        { $set: payload },
         { new: true } // To return the updated document
       );
     }
@@ -79,9 +105,6 @@ export const createStockForDevice = async (req: Request, res: Response) => {
     //   currentStock: device.available_stocks + refillCount,
     //   refiller: refiller,
     // });
-
-    device.available_stocks = device.available_stocks + refillCount;
-    await device.save();
 
     return res.status(StatusCodes.CREATED).json({
       message: MESSAGE.post.succ,
@@ -97,7 +120,7 @@ export const createStockForDevice = async (req: Request, res: Response) => {
   }
 };
 
-// export const updateStock = async (req: Request, res: Response) => {
+// export const updateStockForDevice = async (req: Request, res: Response) => {
 //   try {
 //     const { device_id, currentStock } = req.body;
 
@@ -171,11 +194,16 @@ export const createStockForDevice = async (req: Request, res: Response) => {
 //   }
 // };
 
+/*********************************************************
+ *
+ *
+ *
+ */
+
 export const updateStockForDevice = async (req: Request, res: Response) => {
   try {
     const { device_id } = req.params;
     const { currentStock } = req.body;
-
     if (typeof currentStock !== "number") {
       return res.status(StatusCodes.BAD_REQUEST).json({
         message: MESSAGE.patch.fail,
@@ -183,41 +211,82 @@ export const updateStockForDevice = async (req: Request, res: Response) => {
     }
 
     // Find the device
-    const device = await DeviceModel.findOne({ device_id });
+    const device = await DeviceModel.findOne({ device_id: device_id });
     if (!device) {
       return res.status(StatusCodes.NOT_FOUND).json({
         message: MESSAGE.patch.fail,
       });
     }
+    // console.log(device_id, device, currentStock);
 
     // Get today's date without the time part
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    // const today = new Date();
+    // today.setHours(0, 0, 0, 0);
+    const date = new Date();
+    const today = new Date(
+      formateMongoDateService(date.toISOString().split("T")[0])
+    );
+
+    const oldStock: number = device.available_stocks;
+    let today_sell_count: number = 0;
+    let todays_stock: number = device.available_stocks;
+    const MAX_STOCK = 200;
+    let payload: any;
 
     // Find the stock entry for today
-    console.log(device_id);
     const stock = await StockModel.findOne({
       device_id: device_id,
-      date: formateMongoDateService(String(today)),
+      // date: formateMongoDateService(String(today)),
+      date: today,
     });
 
-    console.log("=====>date", getCurrentMongoDBFormattedDate());
     if (!stock) {
-      return res.status(StatusCodes.NOT_FOUND).json({
-        message: MESSAGE.patch.fail,
-        error: "Stock for today not found.",
-      });
+      //if document not found
+      // if (oldStock >= currentStock) {
+      //   today_sell_count = oldStock - currentStock;
+      //   todays_stock = oldStock;
+      // } else {
+      //   today_sell_count = MAX_STOCK - currentStock;
+      // }
+      payload = {
+        device_id,
+        currentStock: currentStock,
+        today_sell_count,
+        todays_stock: currentStock,
+        date: today,
+      };
+    } else {
+      //if document found
+      if (oldStock >= currentStock) {
+        today_sell_count = stock.todays_stock - currentStock;
+        console.log(today_sell_count);
+        // todays_stock = oldStock;
+      } else {
+        // today_sell_count = MAX_STOCK - currentStock;
+        today_sell_count = stock.today_sell_count;
+      }
+      payload = {
+        currentStock: currentStock,
+        today_sell_count,
+      };
     }
-
-    stock.currentStock = currentStock;
-    const updatedStock = await stock.save();
+    const updateInstance = await StockModel.findOneAndUpdate(
+      { date: today, device_id: device_id },
+      {
+        $set: payload,
+      },
+      {
+        upsert: true, // This creates a new document if no matching document is found
+        new: true, // This returns the updated document
+      }
+    );
 
     device.available_stocks = currentStock;
     await device.save();
 
     return res.status(StatusCodes.OK).json({
       message: MESSAGE.patch.succ,
-      stock: updatedStock,
+      stock: updateInstance,
       device: device,
     });
   } catch (error: any) {

@@ -34,44 +34,54 @@ const DashboardTopStats = () => {
     const response = await getTotalMarket();
     setMarkets(response?.data);
   };
+
   const rows = [
     [
       {
         title: "Total Machines",
-        count: devices?.totalDevices,
+        count: devices?.totalDevices || "NA",
         icon: ComputerDesktopIcon,
       },
-      { title: "Total Markets", count: markets?.result, icon: MapPinIcon },
+      {
+        title: "Total Markets",
+        count: markets?.result || "NA",
+        icon: MapPinIcon,
+      },
       {
         title: "Machines Working",
-        count: devices?.totalDevices - devices?.devicesWithZeroStocks,
+        count: devices?.totalDevices - devices?.devicesWithZeroStocks || "NA",
         icon: TruckIcon,
       },
       {
         title: "Machines Out of Order",
-        count: devices?.devicesWithZeroStocks,
+        count: devices?.devicesWithZeroStocks || "NA",
+        icon: TruckIcon,
+      },
+      {
+        title: "Machines Out of Bag",
+        count: devices?.devicesWithZeroStocks || "NA",
         icon: TruckIcon,
       },
     ],
     [
       {
         title: "Total Bags Dispensed",
-        count: sales?.totalSales,
+        count: sales?.totalSales || "NA",
         icon: ShoppingBagIcon,
       },
       {
         title: "Bags Dispensed This Month",
-        count: sales?.currentMonthSales,
+        count: sales?.currentMonthSales || "NA",
         icon: CalendarIcon,
       },
       {
         title: "Bags Dispensed This Week",
-        count: sales?.currentWeekSales,
+        count: sales?.currentWeekSales || "NA",
         icon: CalendarDaysIcon,
       },
       {
         title: "Bags Dispensed Today",
-        count: sales?.currentDaySales,
+        count: sales?.currentDaySales || "NA",
         icon: SunIcon,
       },
     ],

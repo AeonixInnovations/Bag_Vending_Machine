@@ -12,8 +12,8 @@ import { getRegisterDevice } from "../../../utils/apis/Apis";
 
 const MonthlySalesBarChart = () => {
   const [chartData, setChartData] = useState<any>({
-    type: "bar",
-  height: 290,
+    type: "area",
+    height: 290,
     series: [{ name: "Sales", data: [] }],
     options: {
       chart: {
@@ -68,15 +68,17 @@ const MonthlySalesBarChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response:any = await getRegisterDevice();
+        const response: any = await getRegisterDevice();
         const salesData = response.data;
 
-        const categories = salesData.map((data: any) => `${data.month}-${data.year}`);
+        const categories = salesData.map(
+          (data: any) => `${data.month}-${data.year}`
+        );
         const sales = salesData.map((data: any) => data.totalDevices);
 
-        setChartData((prevState:any) => ({
+        setChartData((prevState: any) => ({
           ...prevState,
-          series: [{ name: "Sales", data: sales }],
+          series: [{ name: "Machine registered", data: sales }],
           options: {
             ...prevState.options,
             xaxis: {
