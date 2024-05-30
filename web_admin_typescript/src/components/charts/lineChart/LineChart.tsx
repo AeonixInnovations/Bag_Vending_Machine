@@ -13,7 +13,7 @@ import {  getSalesbyWeek, getTotalSell } from "../../../utils/apis/Apis";
 
 const MonthlySalesBarChart = () => {
   const [chartData, setChartData] = useState<any>({
-     type: 'bar',
+     type: 'area',
   height: 300,
     series: [{ name: "Sales", data: [] }],
     options: {
@@ -83,7 +83,7 @@ const MonthlySalesBarChart = () => {
         const categories = salesData.map((data:any) => {
           return selectedOption === "Monthly"
             ? `${data.month}-${data.year}`
-            : `${data.week}`;
+            : `${data.day}`;
         });
         const sales = salesData.map((data:any) => data.totalSales);
 
@@ -108,15 +108,15 @@ const MonthlySalesBarChart = () => {
 
 
   return (
-    <Card className="w-full md:w-1/2 mx-auto mb-10">
+    <Card className="w-full md:w-1/2 mx-auto mb-10 ">
       <CardHeader
         floated={false}
         shadow={false}
         color="transparent"
         className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
       >
-        <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
-          <PresentationChartLineIcon className="h-6 w-6" />
+        <div className="w-max rounded-lg bg-green-500 p-4 text-white">
+          <PresentationChartLineIcon className="h-8 w-8 " />
         </div>
         <div>
         <select
@@ -125,7 +125,7 @@ const MonthlySalesBarChart = () => {
             className="mt-2"
           >
             <option value="Monthly">Monthly Sales Chart</option>
-            <option value="Weekly">Weekly Sales Chart</option>
+            <option value="Weekly">Daily Sales Chart</option>
           </select>
         </div>
       </CardHeader>

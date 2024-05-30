@@ -251,7 +251,60 @@ export const getMonthlyDailySales = async (req: Request, res: Response) => {
   }
 };
 
+export const getDailySales = async (req: Request, res: Response) => {
+  try {
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth() + 1; // JavaScript months are 0-based
 
+    const dailySales = await StockModel.aggregate([
+      {
+        $addFields: {
+          date: { $toDate: "$date" }
+        }
+      },
+      {
+        $match: {
+          $expr: {
+            $and: [
+              { $eq: [{ $year: "$date" }, currentYear] },
+              { $eq: [{ $month: "$date" }, currentMonth] }
+            ]
+          }
+        }
+      },
+      {
+        $group: {
+          _id: {
+            day: { $dayOfMonth: "$date" },
+            month: { $month: "$date" },
+            year: { $year: "$date" }
+          },
+          totalSales: { $sum: "$today_sell_count" }
+        }
+      },
+      {
+        $sort: { "_id.day": 1 }
+      },
+      {
+        $project: {
+          _id: 0,
+          day: "$_id.day",
+          month: "$_id.month",
+          year: "$_id.year",
+          totalSales: 1
+        }
+      }
+    ]);
+
+    res.status(StatusCodes.OK).json(dailySales);
+  } catch (error) {
+    console.error("Error fetching daily sales data:", error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "Failed to fetch data",
+      error: error,
+    });
+  }
+};
 export const getDevicesCreatedMonthly = async (req: Request, res: Response) => {
     try {
       const devicesCreatedMonthly = await DeviceModel.aggregate([
@@ -332,4 +385,33 @@ export const getDevicesCreatedMonthly = async (req: Request, res: Response) => {
     }
   };
   
+  export const getDeviceWiseSales = async (req: Request, res: Response) => {
+    try {
+      const deviceWiseSales = await StockModel.aggregate([
+        {
+          $group: {
+            _id: "$device_id",
+            totalSales: { $sum: "$today_sell_count" }
+          }
+        },
+        {
+          $sort: { "_id": 1 }
+        },
+        {
+          $project: {
+            _id: 0,
+            device_id: "$_id",
+            totalSales: 1
+          }
+        }
+      ]);
   
+      res.status(StatusCodes.OK).json(deviceWiseSales);
+    } catch (error) {
+      console.error("Error fetching device-wise sales data:", error);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: "Failed to fetch data",
+        error: error,
+      });
+    }
+  };

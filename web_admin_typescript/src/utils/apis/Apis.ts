@@ -70,6 +70,10 @@ export const getDeviceDetails = async ()=>{
     return response;
 }
 export const getSalesbyWeek = async ()=>{
-    const response = await Get(`/getSalesbyWeek`, header);
+    const response = await Get(`/getDailySales`, header);
+    return response;
+}
+export const getDeviceWiseSales = async ()=>{
+    const response = await Get(`/getDeviceWiseSales`, header);
     return response;
 }

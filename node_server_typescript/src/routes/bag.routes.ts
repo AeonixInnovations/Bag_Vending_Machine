@@ -10,7 +10,7 @@ import { createAdmin, loginAdmin } from "../controller/auth.controllers";
 import { fetchDeviceData } from "../controller/deviceController";
 import { getDispensedCounts, getOutOfOrderCount, getTotalDevices } from "../controller/dashboard.controller";
 import { createStockForDevice, updateStockForDevice } from "../controller/stockController/stockUpdate.controller";
-import { getDeviceCountByAddress, getDevicesCreatedMonthly, getMonthlyDailySales, getMonthlySales, getMonthlyWeeklySales, getWeeklySales } from "../controller/graph/graph.comtrollers";
+import { getDailySales, getDeviceCountByAddress, getDeviceWiseSales, getDevicesCreatedMonthly, getMonthlyDailySales, getMonthlySales, getMonthlyWeeklySales, getWeeklySales } from "../controller/graph/graph.comtrollers";
 import { getSalesData } from "../controller/TotalSells/TotalSells";
 import { getDeviceData } from "../controller/deviceSales/deviceSales";
 
@@ -45,6 +45,11 @@ router.get("/getALlStocks",getMonthlySales);
 router.get("/getAllDevices",getDevicesCreatedMonthly);
 router.get("/getSales",getSalesData);
 router.get("/getSalesbyWeek",getWeeklySales);
+
+router.get("/getDailySales",getDailySales);
+router.get("/getDeviceWiseSales",getDeviceWiseSales);
+
+
 router.get("/getSalesbyMonthlyWeek",getMonthlyWeeklySales);
 router.get("/getMonthlyDailySales",getMonthlyDailySales);
 router.get("/getDevices",getDeviceData);
