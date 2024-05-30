@@ -25,6 +25,7 @@ import {
 } from "../controller/graph/graph.comtrollers";
 import { getSalesData } from "../controller/TotalSells/TotalSells";
 import { getDeviceData } from "../controller/deviceSales/deviceSales";
+import { getArrayOfMarket } from "../controller/market.controller";
 
 const router = express.Router();
 
@@ -59,4 +60,5 @@ router.get("/getAllDevices", getDevicesCreatedMonthly);
 router.get("/getSales", getSalesData);
 router.get("/getDevices", getDeviceData);
 router.get("/getTotalMarket", getTotalMarketCount);
+router.post("/getArrayOfMarket", getArrayOfMarket);
 export { router as DeviceRouter };

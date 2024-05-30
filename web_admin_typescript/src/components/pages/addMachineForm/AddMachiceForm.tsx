@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { KeyboardEvent, useCallback, useEffect, useState } from "react";
 import Layout from "../../layout/Layout";
 import {
   Alert,
@@ -15,69 +15,53 @@ import { AddMachineFormInterface } from "../../../@types/interface/addMachine/Ad
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 import { DayPicker } from "react-day-picker";
 import { format } from "date-fns";
-import { postRegisterMachine } from "../../../utils/apis/Apis";
+import {
+  getArrayOfMarket,
+  postRegisterMachine,
+} from "../../../utils/apis/Apis";
+import useDebounce from "../../../customHooks/useDebounce";
+
+// Debounce utility function
+
 const AddMachineForm = () => {
   const [formData, setFormData] = useState<AddMachineFormInterface | null>({
     deviceId: "",
     address: "",
     machine_contact_number: "",
   });
-
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [isSave, setIsSave] = useState<Number | null>(null);
   const [suggestions, setSuggestions] = useState([]);
   const [marketName, setMarketName] = useState("");
-  const data = [
-    "apple",
-    "apricot",
-    "avocado",
-    "almond",
-    "asparagus",
-    "artichoke",
-    "arugula",
-    "acorn",
-    "banana",
-    "orange",
-    "mango",
-    "grapefruit",
-  ];
-  // const data = [
-  //   "apple",
-  // "apricot",
-  // "avocado",
-  // "almond",
-  // "asparagus",
-  // "artichoke",
-  // "arugula",
-  // "acorn",
-  //   "agave",
-  //   "anise",
-  //   "alfalfa",
-  //   "amaranth",
-  //   "anchovy",
-  //   "aprium",
-  //   "allspice",
-  //   "arrowroot",
-  //   "aubergine",
-  //   "aronia",
-  //   "asiago",
-  //   "acai"
-  // ];
+  const { debouncedValue } = useDebounce(marketName, 1000);
 
-  // Function to filter suggestions based on input value
-  const filterSuggestions = (value: any): any => {
-    if (value === "") return [];
-    const filteredData = data.filter((item) =>
-      item.toLowerCase().startsWith(value.toLowerCase())
-    );
-    return filteredData;
-  };
+  const getInitialInstances = useCallback(
+    async (_searchString: string) => {
+      try {
+        console.log(debouncedValue, marketName);
+        if (marketName) {
+          const queryCall = await getArrayOfMarket(debouncedValue);
+          if (!queryCall) {
+            setSuggestions([]);
+          } else {
+            setSuggestions(queryCall.data.result);
+          }
+        } else {
+          setSuggestions([]);
+        }
+        // setSuggestions();
+      } catch (error) {
+        alert("Something went wrong!");
+      }
+    },
+    [debouncedValue, marketName]
+  );
 
   // Update suggestions on input change
-  const handleAutocompleteInputChange = (event: any) => {
-    setMarketName(event.target.value);
-    setSuggestions(filterSuggestions(event.target.value));
-  };
+  const handleAutocompleteInputChange = useCallback((event: any) => {
+    const value = event.target.value;
+    setMarketName(value);
+  }, []);
 
   // Handle suggestion click to update input value and hide suggestions
   const handleSuggestionClick = (suggestion: any) => {
@@ -123,6 +107,10 @@ const AddMachineForm = () => {
   };
 
   useEffect(() => {
+    if (debouncedValue) getInitialInstances(debouncedValue);
+  }, [debouncedValue, getInitialInstances]);
+
+  useEffect(() => {
     let timeout: any;
     if (isSave !== null) {
       timeout = setTimeout(() => {
@@ -131,6 +119,7 @@ const AddMachineForm = () => {
     }
     return () => clearTimeout(timeout);
   }, [isSave]);
+
   return (
     <Layout>
       <div className="">
@@ -313,8 +302,9 @@ const AddMachineForm = () => {
                     // required
                     className="w-full text-sm border border-gray-300 px-4 py-3 rounded-md outline-[#333]"
                     placeholder="Please type the market name if applicable"
+                    autoComplete="off"
                   />
-                  {suggestions.length > 0 && (
+                  {suggestions?.length > 0 && (
                     <ul
                       id="autocomplete-suggestions"
                       className="absolute top-full left-0 w-full max-h-48 bg-white rounded-md shadow-md overflow-y-auto z-50"

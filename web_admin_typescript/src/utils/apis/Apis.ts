@@ -98,3 +98,10 @@ export const getTotalMarket = async () => {
   const response = await Get(`/getTotalMarket`, header);
   return response;
 };
+export const getArrayOfMarket = async (searchTerm: string) => {
+  const payload = {
+    searchTerm: searchTerm,
+  };
+  const response = await Post("/getArrayOfMarket", payload, header);
+  return response;
+};

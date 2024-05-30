@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import MarketModel from "../model/market.schema";
+import { count } from "console";
 
 export const postMarket = async (
   marketName: string,
@@ -52,6 +53,36 @@ export const getTotalMarket = async (req: Request, res: Response) => {
   } catch (error) {
     return res.status(500).json({
       message: "Internal server error",
+      error: error,
+    });
+  }
+};
+
+export const getArrayOfMarket = async (req: Request, res: Response) => {
+  const { searchTerm } = req.body;
+  try {
+    const regex = new RegExp(`^${searchTerm}`, "i"); // 'i' for case-insensitive search
+    const results = await MarketModel.aggregate([
+      {
+        $match: {
+          marketName: { $regex: regex },
+        },
+      },
+      {
+        $project: {
+          _id: 0,
+          marketName: 1,
+        },
+      },
+    ]);
+    const marketNames = results.map((result) => result.marketName);
+    res.status(200).json({
+      message: "Data found successfully",
+      result: marketNames,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Internal Server Error",
       error: error,
     });
   }

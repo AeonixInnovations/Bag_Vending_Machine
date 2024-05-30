@@ -13,6 +13,7 @@ const stockUpdate_controller_1 = require("../controller/stockController/stockUpd
 const graph_comtrollers_1 = require("../controller/graph/graph.comtrollers");
 const TotalSells_1 = require("../controller/TotalSells/TotalSells");
 const deviceSales_1 = require("../controller/deviceSales/deviceSales");
+const market_controller_1 = require("../controller/market.controller");
 const router = express_1.default.Router();
 exports.DeviceRouter = router;
 // router.get("/")
@@ -42,3 +43,4 @@ router.get("/getAllDevices", graph_comtrollers_1.getDevicesCreatedMonthly);
 router.get("/getSales", TotalSells_1.getSalesData);
 router.get("/getDevices", deviceSales_1.getDeviceData);
 router.get("/getTotalMarket", dashboard_controller_1.getTotalMarketCount);
+router.post("/getArrayOfMarket", market_controller_1.getArrayOfMarket);

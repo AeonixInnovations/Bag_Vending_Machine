@@ -42,7 +42,7 @@ const SmallCard = ({ title, count, Icon, color }: any) => {
           <div
             className={` flex justify-center items-center border border-black/10 bg-black/10 rounded-full w-10 h-10`}
           >
-            <Icon className={`h-6 w-6 stroke-black/30`} />
+            <Icon className={`h-6 w-6 text-gray-200`} />
           </div>
           <p className="text-white/90 text-3xl  font-bold">{count}</p>
         </div>
