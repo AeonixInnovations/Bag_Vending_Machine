@@ -20,8 +20,14 @@ import {
   updateStockForDevice,
 } from "../controller/stockController/stockUpdate.controller";
 import {
+  getDailySales,
+  getDeviceCountByAddress,
+  getDeviceWiseSales,
   getDevicesCreatedMonthly,
+  getMonthlyDailySales,
   getMonthlySales,
+  getMonthlyWeeklySales,
+  getWeeklySales,
 } from "../controller/graph/graph.comtrollers";
 import { getSalesData } from "../controller/TotalSells/TotalSells";
 import { getDeviceData } from "../controller/deviceSales/deviceSales";
@@ -58,7 +64,15 @@ router.get("/getOutOfOrderCount", getOutOfOrderCount);
 router.get("/getALlStocks", getMonthlySales);
 router.get("/getAllDevices", getDevicesCreatedMonthly);
 router.get("/getSales", getSalesData);
+router.get("/getSalesbyWeek", getWeeklySales);
+
+router.get("/getDailySales", getDailySales);
+router.get("/getDeviceWiseSales", getDeviceWiseSales);
+
+router.get("/getSalesbyMonthlyWeek", getMonthlyWeeklySales);
+router.get("/getMonthlyDailySales", getMonthlyDailySales);
 router.get("/getDevices", getDeviceData);
+router.get("/getDevicesAdress", getDeviceCountByAddress);
 router.get("/getTotalMarket", getTotalMarketCount);
 router.post("/getArrayOfMarket", getArrayOfMarket);
 export { router as DeviceRouter };

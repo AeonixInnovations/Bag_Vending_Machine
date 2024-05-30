@@ -73,7 +73,7 @@ export const getRefillDetails = async (
   endDate: string
 ) => {
   const response = await Get(
-    `/getRefillDetails?deviceId=${deviceId}&startDate=${startDate}&endDate=${endDate}`,
+    `/getRefillStockDetails?deviceId=${deviceId}&startDate=${startDate}&endDate=${endDate}`,
     header
   );
   return response;
@@ -92,16 +92,5 @@ export const getSellDetails = async () => {
 };
 export const getDeviceDetails = async () => {
   const response = await Get(`/getDevices`, header);
-  return response;
-};
-export const getTotalMarket = async () => {
-  const response = await Get(`/getTotalMarket`, header);
-  return response;
-};
-export const getArrayOfMarket = async (searchTerm: string) => {
-  const payload = {
-    searchTerm: searchTerm,
-  };
-  const response = await Post("/getArrayOfMarket", payload, header);
   return response;
 };

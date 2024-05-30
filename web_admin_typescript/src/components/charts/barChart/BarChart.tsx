@@ -8,20 +8,23 @@ import {
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 import { ChartBarIcon } from "@heroicons/react/24/outline";
-import { getRegisterDevice } from "../../../utils/apis/Apis";
+import {
+  getDeviceWiseSales,
+  getRegisterDevice,
+} from "../../../utils/apis/Apis";
 
 const MonthlySalesBarChart = () => {
   const [chartData, setChartData] = useState<any>({
-    type: "area",
+    type: "bar",
     height: 290,
-    series: [{ name: "Sales", data: [] }],
+    series: [{ name: "Machines registered", data: [] }],
     options: {
       chart: {
         toolbar: { show: false },
       },
       title: { show: "" },
       dataLabels: { enabled: false },
-      colors: ["#020617"],
+      colors: ["#80bfff"],
       plotOptions: {
         bar: {
           columnWidth: "40%",
@@ -68,17 +71,15 @@ const MonthlySalesBarChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response: any = await getRegisterDevice();
+        const response: any = await getDeviceWiseSales();
         const salesData = response.data;
 
-        const categories = salesData.map(
-          (data: any) => `${data.month}-${data.year}`
-        );
-        const sales = salesData.map((data: any) => data.totalDevices);
+        const categories = salesData.map((data: any) => `${data.device_id}`);
+        const sales = salesData.map((data: any) => data.totalSales);
 
         setChartData((prevState: any) => ({
           ...prevState,
-          series: [{ name: "Machine registered", data: sales }],
+          series: [{ name: "Machines registered", data: sales }],
           options: {
             ...prevState.options,
             xaxis: {
@@ -103,8 +104,8 @@ const MonthlySalesBarChart = () => {
         color="transparent"
         className="flex flex-col gap-4 rounded-none md:flex-row md:items-center"
       >
-        <div className="w-max rounded-lg bg-gray-900 p-5 text-white">
-          <ChartBarIcon className="h-6 w-6" />
+        <div className="w-max rounded-lg bg-blue-600 p-4 text-white">
+          <ChartBarIcon className="h-8 w-8" />
         </div>
         <div>
           <Typography variant="h6" color="blue-gray">
