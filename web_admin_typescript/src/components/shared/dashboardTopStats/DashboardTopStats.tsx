@@ -7,8 +7,10 @@ import {
   CurrencyRupeeIcon,
   MapPinIcon,
   ShoppingBagIcon,
-  SunIcon,
   TruckIcon,
+  CogIcon,
+  ExclamationCircleIcon,
+  WrenchScrewdriverIcon,
 } from "@heroicons/react/24/outline";
 import {
   getDeviceDetails,
@@ -41,26 +43,31 @@ const DashboardTopStats = () => {
         title: "Total Machines",
         count: devices?.totalDevices || "NA",
         icon: ComputerDesktopIcon,
+        color: "bg-green-600",
       },
       {
         title: "Total Markets",
         count: markets?.result || "NA",
         icon: MapPinIcon,
+        color: "bg-cyan-400",
       },
       {
         title: "Machines Working",
         count: devices?.workingDeviceCount || "NA",
-        icon: TruckIcon,
+        icon: CogIcon,
+        color: "bg-green-600",
       },
       {
         title: "Machines Out of Order",
         count: devices?.outOfOrderDeviceCount || "NA",
-        icon: TruckIcon,
+        icon: WrenchScrewdriverIcon,
+        color: "bg-red-600",
       },
       {
         title: "Machines Out of Bag",
         count: devices?.devicesWithZeroStocks || "NA",
-        icon: TruckIcon,
+        icon: ExclamationCircleIcon,
+        color: "bg-amber-600",
       },
     ],
     [
@@ -68,21 +75,25 @@ const DashboardTopStats = () => {
         title: "Total Bags Dispensed",
         count: sales?.totalSales || "NA",
         icon: ShoppingBagIcon,
+        color: "bg-blue-600",
       },
       {
         title: "Bags Dispensed This Month",
         count: sales?.currentMonthSales || "NA",
-        icon: CalendarIcon,
+        icon: ShoppingBagIcon,
+        color: "bg-blue-600",
       },
       {
         title: "Bags Dispensed This Week",
         count: sales?.currentWeekSales || "NA",
-        icon: CalendarDaysIcon,
+        icon: ShoppingBagIcon,
+        color: "bg-blue-600",
       },
       {
         title: "Bags Dispensed Today",
         count: sales?.currentDaySales || "NA",
-        icon: SunIcon,
+        icon: ShoppingBagIcon,
+        color: "bg-blue-600",
       },
     ],
   ];
@@ -103,6 +114,7 @@ const DashboardTopStats = () => {
               title={card.title}
               count={card.count}
               Icon={card.icon}
+              color={card.color}
             />
           ))}
         </div>
