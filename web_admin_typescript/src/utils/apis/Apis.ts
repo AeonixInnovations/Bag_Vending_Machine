@@ -77,3 +77,7 @@ export const getDeviceWiseSales = async ()=>{
     const response = await Get(`/getDeviceWiseSales`, header);
     return response;
 }
+export const getSalesbyMonthlyWeek = async ()=>{
+    const response = await Get(`/getSalesbyWeek`, header);
+    return response;
+}

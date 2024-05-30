@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import Chart from "react-apexcharts";
 import { ChartBarIcon, PresentationChartLineIcon } from "@heroicons/react/24/outline";
-import {  getSalesbyWeek, getTotalSell } from "../../../utils/apis/Apis";
+import {  getSalesbyMonthlyWeek, getSalesbyWeek, getTotalSell } from "../../../utils/apis/Apis";
 
 const MonthlySalesBarChart = () => {
   const [chartData, setChartData] = useState<any>({
@@ -75,15 +75,19 @@ const MonthlySalesBarChart = () => {
         let response:any;
         if (selectedOption === "Monthly") {
           response = await getTotalSell();
-        } else {
+        } else if(selectedOption === "Daily") {
           response = await getSalesbyWeek();
+        }else{
+          response = await getSalesbyMonthlyWeek();
         }
         const salesData = response.data;
 
         const categories = salesData.map((data:any) => {
           return selectedOption === "Monthly"
             ? `${data.month}-${data.year}`
-            : `${data.day}`;
+            : selectedOption === "Daily"?
+             `${data.day}`
+             :`${data.week}`
         });
         const sales = salesData.map((data:any) => data.totalSales);
 
@@ -125,7 +129,8 @@ const MonthlySalesBarChart = () => {
             className="mt-2"
           >
             <option value="Monthly">Monthly Sales Chart</option>
-            <option value="Weekly">Daily Sales Chart</option>
+            <option value="Weekly">Weekly Sales Chart</option>
+            <option value="Daily">Daily Sales Chart</option>
           </select>
         </div>
       </CardHeader>
