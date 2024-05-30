@@ -5,8 +5,7 @@ import React from "react";
 const SmallCard = ({ title, count ,Icon}: any) => {
   return (
     <a
-      href="#"
-      className="flex flex-row items-center p-4 gap-3 w-96 2xl:w-72  transition-all duration-500 bg-white border border-indigo-100 rounded-lg shadow-md hover:shadow-xl "
+      className="flex flex-row items-center p-4 gap-3 w-96 2xl:w-80  transition-all duration-500 bg-white border border-indigo-100 rounded-lg shadow-md hover:shadow-xl "
     >
       <div className="flex items-center justify-center w-12 h-12 bg-green-100 border border-green-200 rounded-full shadow-inner ">
       {/* <ShoppingBagIcon className="h-6 w-6 text-green-500" /> */}

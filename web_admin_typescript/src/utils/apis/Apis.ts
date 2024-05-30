@@ -69,3 +69,7 @@ export const getDeviceDetails = async ()=>{
     const response = await Get(`/getDevices`, header);
     return response;
 }
+export const getSalesbyWeek = async ()=>{
+    const response = await Get(`/getSalesbyWeek`, header);
+    return response;
+}

@@ -12,16 +12,16 @@ import { getRegisterDevice } from "../../../utils/apis/Apis";
 
 const MonthlySalesBarChart = () => {
   const [chartData, setChartData] = useState<any>({
-    type: "bar",
+    type:"area",
   height: 290,
-    series: [{ name: "Sales", data: [] }],
+    series: [{ name: "Machines registered", data: [] }],
     options: {
       chart: {
         toolbar: { show: false },
       },
       title: { show: "" },
       dataLabels: { enabled: false },
-      colors: ["#020617"],
+      colors: ["#80bfff"],
       plotOptions: {
         bar: {
           columnWidth: "40%",
@@ -76,7 +76,7 @@ const MonthlySalesBarChart = () => {
 
         setChartData((prevState:any) => ({
           ...prevState,
-          series: [{ name: "Sales", data: sales }],
+          series: [{ name: "Machines registered", data: sales }],
           options: {
             ...prevState.options,
             xaxis: {

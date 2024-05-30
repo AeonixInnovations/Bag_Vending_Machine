@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import SmallCard from "../smallCard/SmallCard";
-import { CalendarDaysIcon, CalendarIcon, ComputerDesktopIcon, CurrencyRupeeIcon, MapPinIcon, ShoppingBagIcon, SunIcon, TruckIcon } from "@heroicons/react/24/outline";
+import { CalendarDaysIcon, CalendarIcon, CogIcon, ComputerDesktopIcon, CurrencyRupeeIcon, ExclamationTriangleIcon, MapPinIcon, ShieldExclamationIcon, ShoppingBagIcon, SunIcon, TruckIcon } from "@heroicons/react/24/outline";
 import { getDeviceDetails, getSellDetails } from "../../../utils/apis/Apis";
 
 const DashboardTopStats = () => {
@@ -21,8 +21,8 @@ const DashboardTopStats = () => {
     [
       { title: "Total Machines", count: devices?.totalDevices , icon: ComputerDesktopIcon},
       { title: "Total Markets", count: 541 ,icon: MapPinIcon },
-      { title: "Machines Working", count: devices?.totalDevices- devices?.devicesWithZeroStocks,icon: TruckIcon},
-      { title: "Machines Out of Order", count: devices?.devicesWithZeroStocks ,icon: TruckIcon },
+      { title: "Machines Working", count: devices?.totalDevices- devices?.devicesWithZeroStocks,icon: CogIcon },
+      { title: "Machines Out of Order", count: devices?.devicesWithZeroStocks ,icon: ExclamationTriangleIcon   },
     ],
     [
       { title: "Total Bags Dispensed", count: sales?.totalSales ,icon: ShoppingBagIcon},
