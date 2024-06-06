@@ -41,7 +41,7 @@ router.put("/updateAvailableStock", updateAvailableStock);
 router.put("/updateMaxStock", updateMaxStock);
 router.get("/getMaxStock/:device_id", getDeviceMaxStockById);
 router.get("/getAllDeviceList", getAllDeviceList);
-router.get("/getAllDeviceList", getAllDeviceList);
+// router.get("/getAllDeviceList", getAllDeviceList);
 router.post("/fetchSingleDeviceData", fetchDeviceData);
 router.post("/signupAdmin", createAdmin);
 router.post("/loginAdmin", loginAdmin);

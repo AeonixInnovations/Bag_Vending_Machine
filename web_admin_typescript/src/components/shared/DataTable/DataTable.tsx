@@ -105,15 +105,14 @@ const DataTable = ({
                 {/* <ArrowPathIcon /> */}
                 Refresh
               </Button>
-              <Button
+              {/* <Button
                 variant="filled"
                 className="border-blue-500  inline-flex items-center"
                 size="sm"
                 onClick={() => navigate("/refill-details")}
               >
-                {/* <ArrowPathIcon /> */}
                 Check Refill Count
-              </Button>
+              </Button> */}
             </div>
           </div>
 
@@ -258,9 +257,8 @@ const DataTable = ({
                         </Typography>
                       </td>
                       {/* Action */}
-                      <td className={`flex items-center ${classes}`}>
-                        {/* <Button size="sm" color="blue-gray" onClick={handleUpdate}>Update</Button>
-                                                {updateButtonLoading === true && <Spinner className="h-4 w-4 ml-2" />} */}
+                      {/* <td className={`flex items-center ${classes}`}>
+                       
                         <Button
                           size="sm"
                           color="blue-gray"
@@ -273,7 +271,7 @@ const DataTable = ({
                         ) : (
                           <div className="h-4 w-4 ml-2 opacity-0"></div>
                         )}
-                      </td>
+                      </td> */}
                     </tr>
                   );
                 }

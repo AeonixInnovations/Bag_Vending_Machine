@@ -34,8 +34,8 @@ const App = () => {
           <Route path="/dashboard" element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashBoard />} />
           </Route>
-          <Route path="/home" element={<ProtectedRoute />}>
-            <Route path="/home" element={<DeviceList />} />
+          <Route path="/vending-machine-list" element={<ProtectedRoute />}>
+            <Route path="/vending-machine-list" element={<DeviceList />} />
           </Route>
         </Routes>
       </BrowserRouter>

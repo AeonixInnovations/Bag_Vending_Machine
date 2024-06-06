@@ -79,7 +79,7 @@ const MonthlySalesBarChart = () => {
 
         setChartData((prevState: any) => ({
           ...prevState,
-          series: [{ name: "Machines registered", data: sales }],
+          series: [{ name: "Bags Sold per Machine", data: sales }],
           options: {
             ...prevState.options,
             xaxis: {
@@ -109,7 +109,7 @@ const MonthlySalesBarChart = () => {
         </div>
         <div>
           <Typography variant="h6" color="blue-gray">
-            Monthly Sales Chart
+            Monthly Sales Chart (Machine wise)
           </Typography>
         </div>
       </CardHeader>

@@ -43,7 +43,7 @@ const SideBar = () => {
               Dashboard
             </ListItem>
           </Link>
-          <Link to="/home">
+          <Link to="/vending-machine-list">
             <ListItem className="text-gray-100">
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
@@ -60,23 +60,23 @@ const SideBar = () => {
               </ListItemSuffix> */}
             </ListItem>
           </Link>
-          <Link to="/refill-stock">
+          {/* <Link to="/refill-stock">
             <ListItem className="text-gray-100">
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
               </ListItemPrefix>
               Refill Stock
             </ListItem>
-          </Link>
-          <Link to="/register-machine">
+          </Link> */}
+          {/* <Link to="/register-machine">
             <ListItem className="text-gray-100">
               <ListItemPrefix>
                 <InboxIcon className="h-5 w-5" />
               </ListItemPrefix>
               Register Vending Machine
             </ListItem>
-          </Link>
-          <ListItem className="text-gray-100">
+          </Link> */}
+          {/* <ListItem className="text-gray-100">
             <ListItemPrefix>
               <InformationCircleIcon className="h-5 w-5" />
             </ListItemPrefix>
@@ -87,7 +87,7 @@ const SideBar = () => {
               <ChatBubbleBottomCenterTextIcon className="h-5 w-5" />
             </ListItemPrefix>
             Feedback
-          </ListItem>
+          </ListItem> */}
         </List>
       </div>
     </>
