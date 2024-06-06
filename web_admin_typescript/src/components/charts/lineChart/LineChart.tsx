@@ -77,15 +77,19 @@ const MonthlySalesBarChart = () => {
         let response: any;
         if (selectedOption === "Monthly") {
           response = await getTotalSell();
-        } else {
+        } else if (selectedOption === "Daily") {
           response = await getSalesbyWeek();
+        } else {
+          response = await getSalesbyMonthlyWeek();
         }
         const salesData = response.data;
 
         const categories = salesData.map((data: any) => {
           return selectedOption === "Monthly"
             ? `${data.month}-${data.year}`
-            : `${data.day}`;
+            : selectedOption === "Daily"
+            ? `${data.day}`
+            : `${data.week}`;
         });
         const sales = salesData.map((data: any) => data.totalSales);
 
@@ -126,7 +130,8 @@ const MonthlySalesBarChart = () => {
             className="mt-2"
           >
             <option value="Monthly">Monthly Sales Chart</option>
-            <option value="Weekly">Daily Sales Chart</option>
+            <option value="Weekly">Weekly Sales Chart</option>
+            <option value="Daily">Daily Sales Chart</option>
           </select>
         </div>
       </CardHeader>
