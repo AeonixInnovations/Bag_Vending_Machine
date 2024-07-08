@@ -1,6 +1,15 @@
+import axios from "axios";
 import { header } from "../../configs/apiconfig";
 import { Get, Post, Put } from "./ApiCall";
 
+export const getAllDeviceListWithoutAddress = async () => {
+  const response = await axios.get("http://43.204.140.184:3000/getAllDevices", {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+};
 export const getAllDeviceList = async (
   pageNumber: number,
   perPageItem: number

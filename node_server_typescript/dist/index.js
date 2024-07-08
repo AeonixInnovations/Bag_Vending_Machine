@@ -20,8 +20,9 @@ app.use((0, cors_1.default)(options));
 app.use((0, body_parser_1.json)());
 app.use([bag_routes_1.DeviceRouter]);
 mongoose_1.default
-    .connect(process.env.MONGO_URL ||
-    "mongodb+srv://tuhin123:tuhin123@cluster0.pwhjgdx.mongodb.net")
+    .connect(process.env.MONGO_URL || "mongodb://localhost:27017/bag_vending_machine"
+// "mongodb+srv://tuhin123:tuhin123@cluster0.pwhjgdx.mongodb.net"
+)
     .then(() => console.log("  Database connected 📟 "))
     .catch((err) => console.log(err));
 app.listen(port, () => {

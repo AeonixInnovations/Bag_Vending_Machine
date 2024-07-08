@@ -24,8 +24,8 @@ app.use([DeviceRouter]);
 
 mongoose
   .connect(
-    process.env.MONGO_URL ||
-      "mongodb+srv://tuhin123:tuhin123@cluster0.pwhjgdx.mongodb.net"
+    process.env.MONGO_URL || "mongodb://localhost:27017/bag_vending_machine"
+    // "mongodb+srv://tuhin123:tuhin123@cluster0.pwhjgdx.mongodb.net"
   )
   .then(() => console.log("  Database connected 📟 "))
   .catch((err) => console.log(err));
